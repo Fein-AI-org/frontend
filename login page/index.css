@@ -226,100 +226,57 @@ button[type="submit"]:hover {
 
   .left, .right {
     width: 100%;
-    height: auto;
+    padding: 20px;
     border-radius: 0;
     box-shadow: none;
-    padding: 20px;
-    margin: 0;
   }
 
   .left-content {
-    margin-top: 40px;
+    margin-top: 20px;
     text-align: center;
   }
 
   .form-box {
-    max-width: 100%;
-    margin-top: 20px;
+    width: 100%;
+    max-width: 95%;
+    margin: 0 auto;
     padding: 20px;
   }
 
-  .left h1 {
-    font-size: 1.8em;
-    line-height: 1.2;
-  }
-
-  .left p,
-  .follow-us-text {
-    font-size: 1em;
-  }
-
-  h2 {
-    font-size: 1.5em;
+  .bottom-socials,
+  .socials {
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   input[type="email"],
-  input[type="password"],
+  input[type="password"] {
+    font-size: 1em;
+    padding: 12px;
+  }
+
   button[type="submit"] {
     font-size: 1em;
-    padding: 10px;
-  }
-
-  .options {
-    flex-direction: column;
-    align-items: flex-start;
-    font-size: 0.9em;
-    gap: 6px;
-  }
-
-  .bottom-socials img,
-  .socials img {
-    width: 28px;
-    height: 28px;
+    padding: 12px;
   }
 }
 
 @media (max-width: 480px) {
   .left h1 {
-    font-size: 1.4em;
+    font-size: 1.5em;
   }
 
-  .form-box {
-    padding: 15px;
+  h2 {
+    font-size: 1.3em;
   }
 
-  .socials {
-    gap: 15px;
-  }
-
-  .bottom-text,
-  .options {
-    font-size: 0.85em;
-  }
-
-  button[type="submit"] {
-    font-size: 0.9em;
-    padding: 10px;
-  }
-
-  .bottom-socials {
-    gap: 15px;
-    flex-wrap: wrap;
-  }
-
-  input[type="email"],
-  input[type="password"] {
-    font-size: 0.95em;
-    padding: 10px;
-  }
-
+  .bottom-socials img,
   .socials img {
     width: 26px;
     height: 26px;
   }
 
-  .right {
-    padding-top: 40px;
-    margin-top: 20px;
+  .form-box {
+    padding: 15px;
   }
 }
