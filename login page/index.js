@@ -11,7 +11,7 @@ document.addEventListener("mousemove", function(e) {
 document.getElementById("login-form").addEventListener("submit", function(event) {
   event.preventDefault(); // prevent actual submission
   // Redirect to dashboard or home page
-  window.location.href = "../question/index.html"; // Corrected path
+  window.location.href = "dashboard.html"; // Replace with your desired page
 });
 
 // Social Media redirects
@@ -39,3 +39,7 @@ document.getElementById("apple-login").addEventListener("click", function(e) {
   e.preventDefault();
   window.location.href = "https://appleid.apple.com/";
 });
+window.onload = () => {
+  const emailInput = document.querySelector('input[type="email"]');
+  if (emailInput) emailInput.focus();
+};
