@@ -8,19 +8,29 @@
 </head>
 <body>
   <div class="container">
+    <!-- LEFT SIDE -->
     <div class="left">
-      <h1>Your Financial Journey<br>starts here</h1>
-      <p>Create an account to Join Our Community</p>
+      <div class="left-content">
+        <div class="logo" style="margin-bottom: 30px;">
+          <img src="assets/logo.svg" alt="Fein AI Logo" />
+        </div>
+        <h1>Your Financial Journey<br>starts here</h1>
+        <p>Create an account to Join Our Community</p>
+      </div>
+      <p class="follow-us-text">Follow us on</p>
+      <div class="bottom-socials">
+        <a href="#" id="instagram-link"><img src="assets/instagram-logo-bold.svg" alt="Instagram Logo" /></a>
+        <a href="#" id="twitter-link"><img src="assets/x-logo-bold.svg" alt="Twitter" /></a>
+        <a href="#" id="linkedin-link"><img src="assets/linkedin-logo-bold.svg" alt="LinkedIn" /></a>
+      </div>
     </div>
+
+    <!-- RIGHT SIDE -->
     <div class="right">
       <div class="form-box">
         <div class="logo"></div>
-        <div class="logo">
- <img src="file:///C:/Internship%20sh!t/file.svg" alt="Fein AI Logo" />
-</div>
-
         <h2>Hello! Welcome to Fein AI</h2>
-        <form onsubmit="return handleLogin(event)">
+        <form id="login-form">
           <label>Username</label>
           <input type="email" placeholder="Enter your username" required />
 
@@ -29,7 +39,7 @@
 
           <div class="options">
             <label><input type="checkbox" /> Remember me</label>
-            <a href="#">Forgot Password?</a>
+            <a href="forgot-password.html">Forgot Password?</a>
           </div>
 
           <button type="submit">Login</button>
@@ -37,12 +47,11 @@
           <div class="divider">or</div>
 
           <div class="socials">
-            <button class="google">G</button>
-            <button class="apple">A</button>
-            <button class="github">GH</button>
+            <a href="#" id="google-login"><img src="assets/google-logo-bold.svg" alt="Google Login" /></a>
+            <a href="#" id="apple-login"><img src="assets/apple-logo-bold.svg" alt="Apple Login" /></a>
           </div>
 
-          <p class="bottom-text">New to Fein AI? <a href="#">Signup now</a></p>
+          <p class="bottom-text">New to Fein AI? <a href="signup.html">Signup now</a></p>
         </form>
       </div>
     </div>

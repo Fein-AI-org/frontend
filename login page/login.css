@@ -1,37 +1,105 @@
-body {
+/* === BASE STYLES === */
+html, body {
+  height: 100%;
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #0f0f0f;
   color: #ddf1a5;
+  background-color: #0f0f0f;
+  background-image: radial-gradient(#6e6c6c 1px, transparent 1px);
+  background-size: 20px 20px;
+  animation: move-dots 1s linear infinite;
+}
+
+@keyframes move-dots {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 20px 20px;
+  }
 }
 
 .container {
   display: flex;
   height: 100vh;
+  flex-direction: row;
 }
 
+/* === LEFT SECTION === */
 .left, .right {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .left {
   flex-direction: column;
   text-align: center;
-  background-color: #1a1a1a;
+  background-color: #1f1f1f;
+  padding: 40px;
+  justify-content: space-between;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(221, 241, 165, 0.2);
+  box-sizing: border-box;
+}
+
+.left-content {
+  flex-grow: 1;
+  margin-top: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .left h1 {
   font-size: 2.5em;
-  color: #ddf1a5;
+  margin-bottom: 1px;
 }
 
 .left p {
   font-size: 1.2em;
-  margin-top: 10px;
+  margin-top: 60px;
+  margin-bottom: 40px;
+}
+
+.follow-us-text {
+  font-size: 1.1em;
+  margin-bottom: 10px;
   color: #ddf1a5;
+}
+
+.bottom-socials {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  padding-bottom: 20px;
+}
+
+.bottom-socials img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  filter: brightness(0) saturate(100%) invert(86%) sepia(3%) saturate(2033%) hue-rotate(37deg) brightness(95%) contrast(97%);
+  transition: transform 0.2s;
+}
+
+.bottom-socials img:hover {
+  transform: scale(1.1);
+}
+
+/* === RIGHT SECTION === */
+.right {
+  background-color: transparent;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 80px;
+  margin-top: 60px;
 }
 
 .form-box {
@@ -44,14 +112,14 @@ body {
   text-align: center;
 }
 
-.logo {
-  font-size: 3em;
-  margin-bottom: 10px;
+.logo img {
+  max-width: 100%;
+  max-height: 100%;
 }
 
 h2 {
   margin-bottom: 20px;
-  color: #ddf1a5;
+  font-size: 1.8em;
 }
 
 form {
@@ -62,16 +130,21 @@ form {
 label {
   text-align: left;
   margin-bottom: 5px;
-  color: #ddf1a5;
+  font-weight: 500;
+  font-size: 1em;
 }
 
-input[type="email"], input[type="password"] {
+input[type="email"],
+input[type="password"] {
   padding: 10px;
   margin-bottom: 15px;
   border: 1px solid #ddf1a5;
   background-color: transparent;
   color: #ddf1a5;
   border-radius: 5px;
+  font-size: 1em;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 input::placeholder {
@@ -84,6 +157,8 @@ input::placeholder {
   align-items: center;
   font-size: 0.9em;
   margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .options a {
@@ -92,13 +167,20 @@ input::placeholder {
 }
 
 button[type="submit"] {
-  padding: 10px;
+  padding: 12px;
   background-color: #ddf1a5;
   color: #0f0f0f;
   font-weight: bold;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  font-size: 1em;
+}
+
+button[type="submit"]:hover {
+  background-color: #64b724;
+  color: #1f1f1f;
 }
 
 .divider {
@@ -106,14 +188,23 @@ button[type="submit"] {
   font-size: 0.9em;
 }
 
-.socials button {
-  margin: 0 5px;
-  padding: 10px;
-  border: 1px solid #ddf1a5;
-  background: transparent;
-  color: #ddf1a5;
-  border-radius: 50%;
+.socials {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.socials img {
+  width: 30px;
+  height: 30px;
   cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.socials img:hover {
+  transform: scale(1.1);
 }
 
 .bottom-text {
@@ -126,18 +217,84 @@ button[type="submit"] {
   text-decoration: underline;
 }
 
-.logo {
-  width: 50px;
-  height: 50px;
-  margin: 0 auto 20px auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: transparent; /* or #ddf1a5 if you want a placeholder background */
+/* === RESPONSIVE STYLES === */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .left, .right {
+    width: 100%;
+    height: auto;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 20px;
+    margin: 0;
+  }
+
+  .left-content {
+    margin-top: 60px;
+  }
+
+  .form-box {
+    max-width: 100%;
+    margin-top: 20px;
+    padding: 20px;
+  }
+
+  .left h1 {
+    font-size: 1.8em;
+  }
+
+  .left p,
+  .follow-us-text {
+    font-size: 1em;
+  }
+
+  h2 {
+    font-size: 1.5em;
+  }
+
+  input[type="email"],
+  input[type="password"],
+  button[type="submit"] {
+    font-size: 1em;
+  }
+
+  .options {
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 0.9em;
+  }
+
+  .bottom-socials img,
+  .socials img {
+    width: 26px;
+    height: 26px;
+  }
 }
 
-/* Optional: If you're using <img> inside logo */
-.logo img {
-  max-width: 100%;
-  max-height: 100%;
+@media (max-width: 480px) {
+  .left h1 {
+    font-size: 1.5em;
+  }
+
+  .form-box {
+    padding: 15px;
+  }
+
+  .socials {
+    gap: 15px;
+  }
+
+  .bottom-text,
+  .options {
+    font-size: 0.85em;
+  }
+
+  button[type="submit"] {
+    font-size: 0.9em;
+    padding: 10px;
+  }
 }

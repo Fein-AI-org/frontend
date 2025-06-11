@@ -3,86 +3,95 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FEIN AI Survey</title>
-  <link rel="stylesheet" href="styles.css" />
+  <title>FEIN AI Financial Survey</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="card">
-    <h1>Help Us Build Better</h1>
-    <p>Answer a few quick questions to help shape FEIN AI's features.</p>
+    <h1>Financial Profile Survey</h1>
+    <p>Please complete this short survey to help us personalize your experience.</p>
 
-    <form id="surveyForm">
-      <label for="q1">1. What financial tool do you use most?</label>
-      <select id="q1" name="q1">
-        <option value="">Select an option</option>
-        <option>Budgeting App</option>
-        <option>Trading Platform</option>
-        <option>Crypto Wallet</option>
-        <option>Robo-Advisor</option>
+    <div class="progress-text" id="progressText">0% complete</div>
+    <div class="progress-container">
+      <div id="progressBar" class="progress-bar"></div>
+    </div>
+
+    <form id="financeForm">
+      <label for="age">1. What is your age?</label>
+      <input type="number" id="age" name="age" min="21" max="100" required />
+
+      <label for="salary">2. What is your annual salary (in INR)?</label>
+      <input type="number" id="salary" name="salary" min="0" required />
+
+      <label for="cityIndex">3. What is the cost index of your city? (e.g., 1.2)</label>
+      <input type="number" step="0.01" id="cityIndex" name="cityIndex" min="0" required />
+
+      <label for="assets">4. Total asset value (in INR)</label>
+      <input type="number" id="assets" name="assets" min="0" required />
+
+      <label for="liabilities">5. Total liability amount (in INR)</label>
+      <input type="number" id="liabilities" name="liabilities" min="0" required />
+
+      <label for="loanCount">6. Number of active loans</label>
+      <input type="number" id="loanCount" name="loanCount" min="0" required />
+
+      <label for="emi">7. Total annual EMI payment (in INR)</label>
+      <input type="number" id="emi" name="emi" min="0" required />
+
+      <label for="dependents">8. Number of financial dependents</label>
+      <input type="number" id="dependents" name="dependents" min="0" required />
+
+      <label for="creditScore">9. Credit score (300 to 850)</label>
+      <input type="number" id="creditScore" name="creditScore" min="300" max="850" required />
+
+      <label for="budget">10. Do you follow a monthly budget?</label>
+      <select id="budget" name="budget" required>
+        <option value="">Select</option>
+        <option>Yes</option>
+        <option>No</option>
       </select>
 
-      <label for="q2">2. Confidence in financial decisions?</label>
-      <input type="range" id="q2" name="q2" min="1" max="5" value="3" oninput="updateLabel('q2')">
-      <div class="slider-label">
-        <span>1️⃣</span><span>2️⃣</span><span>3️⃣</span><span>4️⃣</span><span>5️⃣</span>
-      </div>
-
-      <label for="q3">3. What's your primary financial goal?</label>
-      <select id="q3" name="q3">
-        <option value="">Select an option</option>
-        <option>Grow Wealth</option>
-        <option>Pay Off Debt</option>
-        <option>Save for a Goal</option>
-        <option>Learn Investing</option>
+      <label for="insurance">11. Do you have any insurance coverage?</label>
+      <select id="insurance" name="insurance" required>
+        <option value="">Select</option>
+        <option>None</option>
+        <option>Health Insurance</option>
+        <option>Life Insurance</option>
+        <option>Both</option>
       </select>
 
-      <label for="q4">4. What’s your biggest financial challenge?</label>
-      <textarea id="q4" name="q4" placeholder="Type your answer..."></textarea>
-
-      <label for="q5">5. Importance of automation in finance?</label>
-      <input type="range" id="q5" name="q5" min="1" max="5" value="3" oninput="updateLabel('q5')">
-      <div class="slider-label">
-        <span>1️⃣</span><span>2️⃣</span><span>3️⃣</span><span>4️⃣</span><span>5️⃣</span>
-      </div>
-
-      <label for="q6">6. What’s your financial experience level?</label>
-      <select id="q6" name="q6">
-        <option value="">Select an option</option>
-        <option>Beginner</option>
-        <option>Intermediate</option>
-        <option>Advanced</option>
+      <label for="tracking">12. How often do you track your expenses?</label>
+      <select id="tracking" name="tracking" required>
+        <option value="">Select</option>
+        <option>Never</option>
+        <option>Occasionally</option>
+        <option>Monthly</option>
+        <option>Daily</option>
       </select>
 
-      <label for="q7">7. How often do you monitor your investments?</label>
-      <input type="range" id="q7" name="q7" min="1" max="5" value="3" oninput="updateLabel('q7')">
-      <div class="slider-label">
-        <span>1️⃣</span><span>2️⃣</span><span>3️⃣</span><span>4️⃣</span><span>5️⃣</span>
-      </div>
-
-      <label for="q8">8. Most exciting AI feature in finance?</label>
-      <select id="q8" name="q8">
-        <option value="">Select an option</option>
-        <option>Smart Stock Picks</option>
-        <option>Spending Breakdown</option>
-        <option>Goal Tracking</option>
-        <option>Real-Time Alerts</option>
+      <label for="advisor">13. Do you consult a financial advisor?</label>
+      <select id="advisor" name="advisor" required>
+        <option value="">Select</option>
+        <option>Yes</option>
+        <option>No</option>
       </select>
 
-      <label for="q9">9. What features do you want in FEIN AI?</label>
-      <textarea id="q9" name="q9" placeholder="Suggest your ideas..."></textarea>
-
-      <label for="q10">10. Would you recommend FEIN AI?</label>
-      <input type="range" id="q10" name="q10" min="1" max="10" value="5" oninput="updateLabel('q10')">
+      <label for="riskTolerance">14. Rate your risk tolerance (0 = Low, 10 = High)</label>
+      <input type="range" id="riskTolerance" name="riskTolerance" min="0" max="10" value="5" />
       <div class="slider-label">
-        <span>1️⃣</span><span>2️⃣</span><span>3️⃣</span><span>4️⃣</span><span>5️⃣</span><span>6️⃣</span><span>7️⃣</span><span>8️⃣</span><span>9️⃣</span><span>🔟</span>
+        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
       </div>
 
-      <button type="submit">Submit Survey</button>
-      <a class="skip-btn" href="#" onclick="alert('Survey skipped. Redirecting...');">Skip this survey</a>
+      <label for="confidence">15. Confidence in managing finances (0 = Not confident, 10 = Very confident)</label>
+      <input type="range" id="confidence" name="confidence" min="0" max="10" value="5" />
+      <div class="slider-label">
+        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+      </div>
+
+      <button type="submit">Submit</button>
+      <a class="skip-link" onclick="skipSurvey()">Skip this survey</a>
     </form>
   </div>
-
   <script src="script.js"></script>
 </body>
 </html>
-
