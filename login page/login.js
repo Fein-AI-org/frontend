@@ -11,7 +11,7 @@ document.addEventListener("mousemove", function(e) {
 document.getElementById("login-form").addEventListener("submit", function(event) {
   event.preventDefault(); // prevent actual submission
   // Redirect to dashboard or home page
-  window.location.href = "dashboard.html"; // Replace with your desired page
+  window.location.href = "../question/index.html"; // Corrected path
 });
 
 // Social Media redirects

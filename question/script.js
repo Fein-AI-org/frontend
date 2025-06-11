@@ -1,6 +1,6 @@
 function skipSurvey() {
   alert("Survey skipped. Redirecting...");
-  window.location.href = "https://your-redirect-url.com";
+  window.location.href = "../chatpage/index.html";
 }
 
 function updateProgressBar() {
@@ -50,5 +50,6 @@ document.getElementById("financeForm").addEventListener("submit", function(e) {
 
   console.log("Submitted Data:", data);
   alert("Your financial profile has been recorded. Thank you!");
+  window.location.href = "../chatpage/index.html";
 });
 
