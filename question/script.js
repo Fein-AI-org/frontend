@@ -1,153 +1,54 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+function skipSurvey() {
+  alert("Survey skipped. Redirecting...");
+  window.location.href = "https://your-redirect-url.com";
 }
-body {
-  background: radial-gradient(ellipse at center, #1a1a1a 0%, #0f0f0f 100%);
-  color: #eaffd0;
-  font-family: 'Segoe UI', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
+
+function updateProgressBar() {
+  const inputs = document.querySelectorAll('#financeForm input, #financeForm select');
+  let filled = 0;
+
+  inputs.forEach(input => {
+    if ((input.type === 'range') || input.value.trim() !== '') {
+      filled++;
+    }
+  });
+
+  const percent = Math.round((filled / inputs.length) * 100);
+  document.getElementById('progressBar').style.width = `${percent}%`;
+  document.getElementById('progressText').textContent = `${percent}% complete`;
 }
-.card {
-  background-color: #151515;
-  border: 1px solid #333;
-  border-radius: 16px;
-  padding: 30px;
-  width: 100%;
-  max-width: 600px;
-  box-shadow: 0 0 20px rgba(100, 255, 100, 0.1);
-  animation: fadeIn 1s ease-in-out;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-h1 {
-  font-size: 1.8rem;
-  margin-bottom: 10px;
-  color: #dfff9d;
-}
-p {
-  margin-bottom: 25px;
-  font-size: 0.95rem;
-  color: #c9ffc9;
-}
-.progress-container {
-  background-color: #333;
-  border-radius: 10px;
-  overflow: hidden;
-  height: 14px;
-  margin-bottom: 15px;
-  position: relative;
-}
-.progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, #aaff88, #88ffcc);
-  width: 0%;
-  transition: width 0.3s ease;
-}
-.progress-text {
-  font-size: 0.9rem;
-  margin-bottom: 10px;
-  text-align: right;
-  color: #cfffaa;
-}
-label {
-  display: block;
-  margin-top: 20px;
-  margin-bottom: 6px;
-  font-weight: 500;
-}
-select, textarea, input[type="range"], input[type="number"] {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #444;
-  background: #222;
-  color: #eaffd0;
-  font-size: 0.9rem;
-  transition: border 0.2s ease, box-shadow 0.2s ease;
-}
-select:focus, textarea:focus, input[type="range"]:focus, input[type="number"]:focus {
-  outline: none;
-  border-color: #aaff88;
-  box-shadow: 0 0 5px #aaff88;
-}
-textarea {
-  resize: vertical;
-  min-height: 60px;
-}
-input[type="range"] {
-  -webkit-appearance: none;
-  height: 10px;
-  border-radius: 10px;
-  background: linear-gradient(to right, #222, #88ffcc);
-  margin-bottom: 10px;
-}
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #00ff99;
-  cursor: pointer;
-  box-shadow: 0 0 2px #000;
-}
-input[type="range"]::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #00ff99;
-  cursor: pointer;
-}
-.slider-label {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.85rem;
-  margin-top: 4px;
-  color: #baffc1;
-}
-.slider-label span {
-  flex: 1;
-  text-align: center;
-}
-button {
-  margin-top: 30px;
-  width: 100%;
-  padding: 12px;
-  font-size: 1rem;
-  background-color: #cfff7c;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  color: #111;
-  font-weight: bold;
-  transition: all 0.3s ease;
-}
-button:hover {
-  background-color: #eaffaa;
-  transform: scale(1.02);
-}
-button:active {
-  transform: scale(0.98);
-}
-.skip-link {
-  display: block;
-  margin-top: 15px;
-  text-align: center;
-  color: #d0ffd0;
-  font-size: 0.9rem;
-  text-decoration: underline;
-  cursor: pointer;
-  background: none;
-  border: none;
-}
-.skip-link:hover {
-  color: #ffffff;
-}
+
+document.querySelectorAll('#financeForm input, #financeForm select').forEach(input => {
+  input.addEventListener('input', updateProgressBar);
+});
+
+document.getElementById("financeForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const inputs = document.querySelectorAll('#financeForm input, #financeForm select');
+  const data = {};
+  let valid = true;
+
+  inputs.forEach(input => {
+    const value = parseFloat(input.value);
+    const name = input.name;
+
+    if ((input.type === "number" || input.tagName === "INPUT") && input.value) {
+      if (input.hasAttribute("min") && value < parseFloat(input.min)) {
+        alert(`Invalid value for ${name}. Minimum allowed is ${input.min}.`);
+        valid = false;
+      }
+      if (input.hasAttribute("max") && value > parseFloat(input.max)) {
+        alert(`Invalid value for ${name}. Maximum allowed is ${input.max}.`);
+        valid = false;
+      }
+    }
+
+    data[name] = input.value;
+  });
+
+  if (!valid) return;
+
+  console.log("Submitted Data:", data);
+  alert("Your financial profile has been recorded. Thank you!");
+});
+
