@@ -1,45 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>AI Chatbot UI</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
-  <link href="https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap" rel="stylesheet">
-  <style>
-    body, html {
-      font-family: 'DM Sans', Arial, sans-serif;
-    }
-    .profile-button img {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      object-fit: cover;
-      cursor: pointer;
-    }
-    .sidebar .new-chat-btn {
-      background-color: #2a2a2a;
-      color: #eee;
-      border: none;
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: 0.3s;
-    }
-    .sidebar .new-chat-btn:hover {
-      background-color: #3a3a3a;
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap" rel="stylesheet" />
 </head>
 <body>
   <div class="container">
-
+    
     <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
+    <aside class="sidebar" id="sidebar">
       <div class="menu-toggle" onclick="toggleSidebar()">
         <i class="ph ph-list"></i>
       </div>
@@ -49,20 +22,14 @@
       </button>
 
       <div id="historyList" class="history-list"></div>
-    </div>
+    </aside>
 
-    <!-- Main Content -->
-    <div class="main">
+    <!-- Main Chat Area -->
+    <main class="main">
       <!-- Topbar -->
       <div class="topbar">
-        <!-- Profile Image -->
-        <button class="profile-button" title="User Profile">
-          <img src="https://i.pravatar.cc/150?img=12" alt="User Profile" />
-        </button>
-
-        <!-- Options/Menu -->
-        <button title="More">
-          <i class="ph ph-dots-three-outline-vertical"></i>
+        <button class="profile-button" onclick="toggleProfileMenu()" title="User Profile">
+          <img src="https://i.pravatar.cc/150?img=12" alt="User" />
         </button>
       </div>
 
@@ -71,98 +38,73 @@
 
       <!-- Chat input -->
       <form class="chat-input" onsubmit="sendMessage(); return false;">
-        <!-- Add Image Button -->
-        <button type="button" title="Add media">
-          <i class="ph ph-plus-circle"></i>
-        </button>
-
-        <!-- Text Input -->
-        <input type="text" id="userInput" placeholder="Type a message...">
-
-        <!-- Mic Button -->
-        <button type="button" title="Voice input">
-          <i class="ph ph-microphone"></i>
-        </button>
-
-        <!-- Chat Symbol Button -->
-        <button type="button" title="Suggestions or threads">
-          <i class="ph ph-waveform"></i>
-        </button>
-
-        <!-- Send Button -->
-        <button type="submit" title="Send message">
-          <i class="ph ph-paper-plane-right"></i>
-        </button>
+        <button type="button" title="Add media"><i class="ph ph-plus-circle"></i></button>
+        <input type="text" id="userInput" placeholder="Type a message..." />
+        <button type="button" title="Voice input"><i class="ph ph-microphone"></i></button>
+        <button type="button" title="Suggestions or threads"><i class="ph ph-waveform"></i></button>
+        <button type="submit" title="Send message"><i class="ph ph-paper-plane-right"></i></button>
       </form>
-    </div>
+    </main>
   </div>
 
-  <!-- JavaScript Logic -->
-  <script>
-    let chats = [[]];
-    let currentChatIndex = 0;
+  <!-- Profile Menu (Desktop) -->
+  <div id="profileMenu" class="profile-menu">
+    <div class="email">meetoeshaad@gmail.com</div>
+    <button>Upgrade Plan</button>
+    <button>Customize FEIN AI</button>
+    <button onclick="openSettings()">Settings</button>
 
-    function startNewChat() {
-      chats.push([]);
-      currentChatIndex = chats.length - 1;
-      updateHistory();
-      renderChat();
-    }
+    <button>Keyboard Shortcuts</button>
+    <a href="#"><i class="ph ph-link"></i> Help & FAQ</a>
+    <a href="#"><i class="ph ph-link"></i> Release Notes</a>
+    <a href="#"><i class="ph ph-link"></i> Terms & Policies</a>
+    <button style="color: #e53935;"><b>Log Out</b></button>
+  </div>
 
-    function sendMessage() {
-      const input = document.getElementById('userInput');
-      const message = input.value.trim();
-      if (!message) return;
+  <!-- Profile Menu (Mobile) -->
+  <div id="mobileProfileMenu" class="mobile-profile-menu">
+    <button class="close-btn" onclick="closeMobileMenu()">&times;</button>
+    <h2>meetoeshaad@gmail.com</h2>
+    <button>Upgrade Plan</button>
+    <button>Customize FEIN AI</button>
+    <button onclick="openSettings()">Settings</button>
 
-      const chat = chats[currentChatIndex];
-      chat.push({ from: 'user', text: message });
-      chat.push({ from: 'ai', text: defaultResponse(message) });
+    <button>Keyboard Shortcuts</button>
+    <a href="#"><i class="ph ph-link"></i> Help & FAQ</a>
+    <a href="#"><i class="ph ph-link"></i> Release Notes</a>
+    <a href="#"><i class="ph ph-link"></i> Terms & Policies</a>
+    <button><b>Log Out</b></button>
+  </div>
+  <!-- Settings Panel -->
+<div id="settingsOverlay" class="settings-overlay">
+  <div class="settings-container">
+    <div class="settings-header">
+      <h2>Settings</h2>
+      <button class="settings-close" onclick="closeSettings()">&times;</button>
+    </div>
+    <div class="settings-content">
+      <ul class="settings-sections">
+        <li onclick="openSettingSection('general')">General</li>
+        <li onclick="openSettingSection('notifications')">Notifications</li>
+        <li onclick="openSettingSection('personalization')">Personalization</li>
+        <li onclick="openSettingSection('speech')">Speech</li>
+        <li onclick="openSettingSection('data')">Data controls</li>
+        <li onclick="openSettingSection('builder')">Builder profile</li>
+        <li onclick="openSettingSection('apps')">Connected apps</li>
+        <li onclick="openSettingSection('security')">Secure sign in</li>
+      </ul>
 
-      input.value = '';
-      renderChat();
-    }
+      <div id="settingDetails" class="setting-details">
+        <p>Select a setting to view details.</p>
+      </div>
+    </div>
+  </div>
+</div>
 
-    function defaultResponse(text) {
-      return `AI says: "${text}"`;
-    }
 
-    function renderChat() {
-      const chatWindow = document.getElementById('chatWindow');
-      chatWindow.innerHTML = '';
+  
 
-      const chat = chats[currentChatIndex];
-      for (let msg of chat) {
-        const bubble = document.createElement('div');
-        bubble.className = msg.from;
-        bubble.innerHTML = msg.text;
-        chatWindow.appendChild(bubble);
-      }
-
-      chatWindow.scrollTop = chatWindow.scrollHeight;
-    }
-
-    function updateHistory() {
-      const historyList = document.getElementById('historyList');
-      historyList.innerHTML = '';
-
-      chats.forEach((_, index) => {
-        const button = document.createElement('button');
-        button.innerHTML = `<i class="ph ph-chat-circle-dots"></i> Chat #${index + 1}`;
-        button.onclick = () => {
-          currentChatIndex = index;
-          renderChat();
-        };
-        historyList.appendChild(button);
-      });
-    }
-
-    function toggleSidebar() {
-      const sidebar = document.getElementById("sidebar");
-      sidebar.classList.toggle("collapsed");
-    }
-
-    updateHistory();
-    renderChat();
-  </script>
+  <!-- JS Modules -->
+  <script type="module" src="/fein-main/chatpage/app.js"></script>
 </body>
 </html>
