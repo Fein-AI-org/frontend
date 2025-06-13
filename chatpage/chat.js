@@ -44,11 +44,13 @@ function updateHistory() {
   list.innerHTML = '';
   chats.forEach((_, i) => {
     const btn = document.createElement('button');
-    btn.innerHTML = `<i class="ph ph-chat-circle-dots"></i> Chat #${i + 1}`;
+    
+    btn.innerHTML = `Chat #${i + 1}`;
     btn.onclick = () => {
       currentChatIndex = i;
       renderChat();
     };
+    
     list.appendChild(btn);
   });
 }

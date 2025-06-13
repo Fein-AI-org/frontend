@@ -1,5 +1,11 @@
 export function initSidebar() {
   window.toggleSidebar = function () {
-    document.getElementById("sidebar").classList.toggle("collapsed");
+    const sidebar = document.getElementById("sidebar");
+    
+    // Toggle for desktop
+    sidebar.classList.toggle("collapsed");
+    
+    // Toggle for mobile
+    sidebar.classList.toggle("show");
   };
 }
