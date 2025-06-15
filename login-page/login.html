@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login Page</title>
+  <title>Fein AI Login</title>
   <link rel="stylesheet" href="login.css" />
 </head>
 <body>
+  <canvas id="stars"></canvas>
   <div class="container">
-    <!-- LEFT SIDE -->
     <div class="left">
       <div class="left-content">
         <div class="logo" style="margin-bottom: 30px;">
@@ -17,41 +17,41 @@
         <h1>Your Financial Journey<br>starts here</h1>
         <p>Create an account to Join Our Community</p>
       </div>
-      <p class="follow-us-text">Follow us on</p>
-      <div class="bottom-socials">
-        <a href="#" id="instagram-link"><img src="assets/instagram-logo-bold.svg" alt="Instagram Logo" /></a>
-        <a href="#" id="twitter-link"><img src="assets/x-logo-bold.svg" alt="Twitter" /></a>
-        <a href="#" id="linkedin-link"><img src="assets/linkedin-logo-bold.svg" alt="LinkedIn" /></a>
+      <div class="bottom-section">
+        <p class="follow-us-text">Follow us on</p>
+        <div class="bottom-socials">
+          <a href="#" id="instagram-btn"><img src="assets/instagram.svg" alt="Instagram" /></a>
+          <a href="#" id="twitter-btn"><img src="assets/twitter.svg" alt="Twitter" /></a>
+          <a href="#" id="linkedin-btn"><img src="assets/linkedin.svg" alt="LinkedIn" /></a>
+        </div>
       </div>
     </div>
 
-    <!-- RIGHT SIDE -->
     <div class="right">
       <div class="form-box">
-        <div class="logo"></div>
         <h2>Hello! Welcome to Fein AI</h2>
         <form id="login-form">
           <label>Email ID</label>
-          <input type="email" placeholder="Enter your email" required />
+          <input type="email" id="login-email" placeholder="Enter your email" required />
+          <div id="email-error" class="error-message"></div>
 
           <label>Password</label>
-          <input type="password" placeholder="Password" required />
+          <input type="password" id="login-password" placeholder="Password" required />
+          <div id="password-error" class="error-message"></div>
 
           <div class="options">
-            <label><input type="checkbox" /> Remember me</label>
-            <a href="forgot-password.html">Forgot Password?</a>
+            <label><input type="checkbox" id="remember-me" /> Remember Me</label>
+            <label><input type="checkbox" id="show-password" /> Show Password</label>
+            <a href="#" id="forgot-password">Forgot Password?</a>
           </div>
 
           <button type="submit">Login</button>
-
           <div class="divider">or</div>
-
           <div class="socials">
-            <a href="#" id="google-login"><img src="assets/google-logo-bold.svg" alt="Google Login" /></a>
-            <a href="#" id="apple-login"><img src="assets/apple-logo-bold.svg" alt="Apple Login" /></a>
+            <a href="#" id="google-login"><img src="assets/google.svg" alt="Google Login" /></a>
+            <a href="#" id="apple-login"><img src="assets/apple.svg" alt="Apple Login" /></a>
           </div>
-
-          <p class="bottom-text">New to Fein AI? <a href="signup.html">Signup now</a></p>
+          <p class="bottom-text">New to Fein AI? <a href="#" id="signup-now">Signup now</a></p>
         </form>
       </div>
     </div>
