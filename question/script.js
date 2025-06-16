@@ -1,5 +1,4 @@
 function skipSurvey() {
-  alert("Survey skipped. Redirecting...");
   window.location.href = "../chatpage/index.html";
 }
 

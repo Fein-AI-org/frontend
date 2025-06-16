@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (valid) {
-      window.location.href = "dashboard.html";
+      window.location.href = "../question/index.html";
     }
   });
 
