@@ -39,10 +39,17 @@ body {
   gap: 20px;
   transition: width 0.3s ease;
   overflow-y: auto;
+  position: relative;
+  min-width: 0;
+  box-shadow: none;
 }
 
 .sidebar.collapsed {
-  width: 0px;
+  width: 0 !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  box-shadow: none !important;
 }
 
 /* === Ensure menu toggle button is always visible on mobile === */
@@ -89,7 +96,8 @@ body {
 /* === TOPBAR === */
 .topbar {
   padding: 16px;
-  display: flex-end;
+  display: flex;
+  align-items: center;
   gap: 12px;
   border-bottom: 1px solid #333;
   background: #181818;
@@ -281,28 +289,74 @@ body {
   .sidebar {
     position: fixed;
     top: 0;
-    left: -260px;
-    width: 260px;
+    left: -100vw;
+    width: 80vw;
+    max-width: 320px;
+    min-width: 0;
     height: 100vh;
     background-color: #121212;
-    z-index: 999;
-    transition: left 0.3s ease;
-    flex-direction: column;
+    z-index: 2000;
+    transition: left 0.3s cubic-bezier(.4,0,.2,1);
+    box-shadow: 2px 0 16px rgba(0,0,0,0.5);
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    padding: 16px 0 16px 16px;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
 
   .sidebar.show {
     left: 0;
   }
 
+  .sidebar.collapsed {
+    left: -100vw !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    box-shadow: none !important;
+  }
+
   .main {
     margin-left: 0;
-    width: 100%;
-    padding-top: 60px; /* adjust if needed */
+    width: 100vw;
+    padding-top: 60px;
+  }
+
+  .menu-toggle {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 2100;
+    background-color: #2a2a2a;
+    padding: 8px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+
+  /* Optional: dark overlay when sidebar is open */
+  body.sidebar-open::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1999;
+    pointer-events: auto;
   }
 }
 
-
+/* Hide sidebar scrollbar for better look */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+  background: transparent;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background: #222;
+  border-radius: 4px;
+}
 
 .profile-button img {
   width: 36px;
@@ -564,6 +618,16 @@ body {
 .stop-btn:hover {
   background-color: #e53935;
 
+}
+
+.fein-ai-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ffffff7b;
+  letter-spacing: 2px;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
 }
 
 

@@ -21,6 +21,9 @@
   
 
   <aside class="sidebar" id="sidebar">
+      <!-- <button class="sidebar-close-btn" onclick="toggleSidebar()" aria-label="Close menu">
+    <i class="ph ph-x"></i>
+  </button> -->
     <button class="new-chat-btn" onclick="startNewChat()">
       <i class="ph ph-plus-circle"></i> New Chat
     </button>
@@ -32,6 +35,7 @@
     <main class="main">
       <!-- Topbar -->
       <div class="topbar">
+        <span class="fein-ai-title">FEIN</span>
         <button class="profile-button" onclick="toggleProfileMenu()" title="User Profile">
           <img src="https://i.pravatar.cc/150?img=12" alt="User" />
         </button>
@@ -115,4 +119,7 @@
   <!-- JS entrypoint: init all modules -->
   <script type="module" src="./app.js"></script>
 </body>
+
+
+
 </html>

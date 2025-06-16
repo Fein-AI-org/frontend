@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const pwdInput = document.getElementById('login-password');
   const emailError = document.getElementById('email-error');
   const pwdError = document.getElementById('password-error');
-  const showPwdCheckbox = document.getElementById('show-password');
+  const togglePwdIcon = document.getElementById('toggle-password');
 
   form.addEventListener('submit', function(e) {
     e.preventDefault();
@@ -30,8 +30,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  showPwdCheckbox.addEventListener('change', () => {
-    pwdInput.type = showPwdCheckbox.checked ? "text" : "password";
+  togglePwdIcon.addEventListener('click', () => {
+    if (pwdInput.type === 'password') {
+      pwdInput.type = 'text';
+      togglePwdIcon.innerHTML = '<i class="ph ph-eye-slash"></i>';
+    } else {
+      pwdInput.type = 'password';
+      togglePwdIcon.innerHTML = '<i class="ph ph-eye"></i>';
+    }
   });
 
   document.getElementById('instagram-btn')?.addEventListener('click', (e) => {
