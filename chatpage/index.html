@@ -41,13 +41,16 @@
       <div class="chat-window" id="chatWindow"></div>
 
       <!-- Chat input -->
-      <form class="chat-input" onsubmit="sendMessage(); return false;">
-        <button type="button" title="Add media"><i class="ph ph-plus-circle"></i></button>
-        <input type="text" id="userInput" placeholder="Type a message..." />
-        <button type="button" title="Voice input" onclick="startVoice()"><i class="ph ph-microphone"></i></button>
-        <button type="button" title="Suggestions or threads"><i class="ph ph-waveform"></i></button>
-        <button type="submit" title="Send message"><i class="ph ph-paper-plane-right"></i></button>
-      </form>
+     <form class="chat-input" onsubmit="sendMessage(); return false;">
+  <div class="input-with-buttons">
+    <button type="button" title="Add media"><i class="ph ph-plus"></i></button>
+    <input type="text" id="userInput" placeholder="Type a message..." />
+    <button type="button" title="Voice input" onclick="startVoice()"><i class="ph ph-microphone"></i></button>
+    <button type="button" title="Suggestions or threads"><i class="ph ph-waveform"></i></button>
+  </div>
+  <button type="submit" title="Send message"><i class="ph ph-paper-plane-right"></i></button>
+</form>
+
     </main>
   </div>
 

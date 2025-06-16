@@ -175,10 +175,63 @@ body {
   padding: 12px;
   border-top: 1px solid #333;
   display: flex;
-  gap: 12px;
+  gap: 8px;
   background-color: #181818;
   align-items: center;
 }
+
+
+.input-with-buttons {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  padding: 6px 8px;
+  gap: 6px;
+}
+
+.input-with-buttons input[type="text"] {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+}
+
+.input-with-buttons button {
+  background: none;
+  border: none;
+  color: #ccc;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.3s;
+}
+
+.input-with-buttons button:hover {
+  color: #fff;
+}
+
+/* Remove background for mic and plus buttons */
+.chat-input button[title="Voice input"],
+.chat-input button[title="Add media"]{
+  background: none;
+  padding: 8px;
+  font-size: 1.2rem;
+  color: #aaa;
+  border: none;
+}
+
+.chat-input button[title="Voice input"]:hover,
+.chat-input button[title="Add media"]:hover,
+.chat-input button[title="Suggestions or threads"]:hover {
+  background: none;
+  color: var(--green);
+}
+
+
 
 .chat-input input[type="text"] {
   flex: 1;
@@ -512,3 +565,5 @@ body {
   background-color: #e53935;
 
 }
+
+
