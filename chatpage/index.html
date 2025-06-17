@@ -9,27 +9,19 @@
   <link href="https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap" rel="stylesheet" />
 </head>
 <body>
- <div class="container">
- 
-  <div class="menu-toggle" onclick="toggleSidebar()">
-    <i class="ph ph-list"></i>
-  </div>
+  <div class="container">
+    <!-- Toggle Menu -->
+    <div class="menu-toggle" onclick="toggleSidebar()">
+      <i class="ph ph-list"></i>
+    </div>
 
-  <!-- Sidebar -->
-
-
-  
-
-  <aside class="sidebar" id="sidebar">
-      <!-- <button class="sidebar-close-btn" onclick="toggleSidebar()" aria-label="Close menu">
-    <i class="ph ph-x"></i>
-  </button> -->
-    <button class="new-chat-btn" onclick="startNewChat()">
-      <i class="ph ph-plus-circle"></i> New Chat
-    </button>
-    <div id="historyList" class="history-list"></div>
-  </aside>
-
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <button class="new-chat-btn" onclick="startNewChat()">
+        <i class="ph ph-plus-circle"></i> New Chat
+      </button>
+      <div id="historyList" class="history-list"></div>
+    </aside>
 
     <!-- Main Chat Area -->
     <main class="main">
@@ -41,20 +33,25 @@
         </button>
       </div>
 
-      <!-- Chat messages -->
+      <!-- Welcome Section -->
+      <section class="welcome-section" id="welcomeSection">
+        <h1>Welcome, what can I do for you?</h1>
+        <p>I am an AI model and may make mistakes. Please make finance-related decisions mindfully and wisely.</p>
+      </section>
+
+      <!-- Chat Window -->
       <div class="chat-window" id="chatWindow"></div>
 
-      <!-- Chat input -->
-     <form class="chat-input" onsubmit="sendMessage(); return false;">
-  <div class="input-with-buttons">
-    <button type="button" title="Add media"><i class="ph ph-plus"></i></button>
-    <input type="text" id="userInput" placeholder="Type a message..." />
-    <button type="button" title="Voice input" onclick="startVoice()"><i class="ph ph-microphone"></i></button>
-    <button type="button" title="Suggestions or threads"><i class="ph ph-waveform"></i></button>
-  </div>
-  <button type="submit" title="Send message"><i class="ph ph-paper-plane-right"></i></button>
-</form>
-
+      <!-- Chat Input -->
+      <form class="chat-input" onsubmit="sendMessage(); return false;">
+        <div class="input-with-buttons">
+          <button type="button" title="Add media"><i class="ph ph-plus"></i></button>
+          <input type="text" id="userInput" placeholder="Type a message..." />
+          <!-- <button type="button" title="Voice input" onclick="startVoice()"><i class="ph ph-microphone"></i></button> -->
+          <button type="button" title="Suggestions or threads" onclick="startVoice()"><i class="ph ph-waveform"></i></button>
+        </div>
+        <button type="submit" title="Send message"><i class="ph ph-paper-plane-right"></i></button>
+      </form>
     </main>
   </div>
 
@@ -113,7 +110,26 @@
   <!-- Waveform Overlay -->
   <div id="voiceModal" class="voice-modal">
     <canvas id="waveformCanvas"></canvas>
-    <button onclick="stopVoice()" class="stop-btn"><i class="ph ph-x-circle"></i></button>
+    <div class="voice-controls">
+  <button id="holdButton" onclick="toggleHold()" title="Hold / Unhold">
+    <i class="ph ph-pause"></i>
+  </button>
+  <button id="micButton" onclick="toggleMic()" title="Mic On / Off">
+    <i class="ph ph-microphone"></i>
+  </button>
+  <div class="dropdown">
+    <button id="speakerButton" onclick="toggleSpeakerDropdown()" title="Speaker Options">
+      <i class="ph ph-speaker-high"></i>
+    </button>
+    <div id="speakerDropdown" class="dropdown-content">
+      <a href="#">Speaker</a>
+      <a href="#">Bluetooth</a>
+      <a href="#">Call</a>
+    </div>
+  </div>
+</div>
+
+    <button onclick="stopVoice()" class="stop-btn"><i class="ph ph-x"></i></button>
   </div>
 
   <!-- JS entrypoint: init all modules -->

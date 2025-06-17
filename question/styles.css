@@ -84,6 +84,7 @@ textarea {
 }
 input[type="range"] {
   -webkit-appearance: none;
+  appearance: none;
   height: 10px;
   border-radius: 10px;
   background: linear-gradient(to right, #222, #88ffcc);

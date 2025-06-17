@@ -42,7 +42,7 @@ function drawWaveform() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     const centerY = canvas.height / 2;
-    const barCount = 4;
+    const barCount = 5;
     const barWidth = Math.min(10, canvas.width * 0.04);
     const spacing = Math.min(20, canvas.width * 0.08);
     const totalWidth = (barWidth * barCount) + (spacing * (barCount - 1));
@@ -57,7 +57,7 @@ function drawWaveform() {
       const y = centerY - barHeight / 2;
 
       const radius = barWidth / 2;
-      ctx.fillStyle = '#ffffff';
+      ctx.fillStyle = '#ddf1a5';
       ctx.beginPath();
       ctx.moveTo(x + radius, y);
       ctx.lineTo(x + barWidth - radius, y);
@@ -85,4 +85,47 @@ export function stopVoice() {
   document.getElementById('voiceModal').style.display = 'none';
   if (animationId) cancelAnimationFrame(animationId);
   if (audioContext) audioContext.close();
+}
+
+let isMicOn = true;
+let isHold = false;
+
+export function toggleMic() {
+  const micBtn = document.getElementById('micButton');
+  const holdBtn = document.getElementById('holdButton');
+  isMicOn = !isMicOn;
+
+  if (isMicOn) {
+    micBtn.classList.remove('off');
+    micBtn.innerHTML = '<i class="ph ph-microphone"></i>';
+    // Optionally re-enable audio stream here
+  } else {
+    micBtn.classList.add('off');
+    
+    micBtn.innerHTML = '<i class="ph ph-microphone-slash"></i>';
+    // Optionally mute or stop stream here
+  }
+}
+
+export function toggleHold() {
+  const holdBtn = document.getElementById('holdButton');
+  const micBtn = document.getElementById('micButton');
+  isHold = !isHold;
+
+  if (isHold) {
+    micBtn.classList.add('off');
+    micBtn.innerHTML = '<i class="ph ph-microphone-slash"></i>';
+    holdBtn.innerHTML = '<i class="ph ph-play"></i>';
+    // Pause voice interaction or animation
+    if (animationId) cancelAnimationFrame(animationId);
+  } else {
+    holdBtn.innerHTML = '<i class="ph ph-pause"></i>';
+    // Resume voice interaction
+    drawWaveform();
+  }
+}
+
+export function toggleSpeakerDropdown() {
+  const dropdown = document.querySelector('.dropdown');
+  dropdown.classList.toggle('show');
 }
