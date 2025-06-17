@@ -57,22 +57,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (fieldId === 'email' && !/\S+@\S+\.\S+/.test(input.value.trim())) {
-      error.textContent = "Please enter a valid email.";
+      if (error) error.textContent = "Please enter a valid email.";
       return false;
     }
 
-    if (fieldId === 'confirm-password') {
-      const pwd = document.getElementById('password').value;
-      const confirm = input.value;
-      if (pwd !== confirm) {
-        error.textContent = "Passwords do not match.";
-        return false;
-      }
+    const pwd = document.getElementById('password')?.value.trim();
+    const confirm = document.getElementById('confirm-password')?.value.trim();
+    const errorConfirm = document.getElementById('error-confirm-password');
+
+    if ((fieldId === 'password' || fieldId === 'confirm-password') && pwd && confirm && pwd !== confirm) {
+      if (errorConfirm) errorConfirm.textContent = "Passwords do not match.";
+      return false;
+    } else if (errorConfirm && pwd === confirm) {
+      errorConfirm.textContent = '';
     }
 
     return true;
   }
 
+  // Constellation animation
   const canvas = document.getElementById('stars');
   const ctx = canvas.getContext('2d');
   let W, H;
