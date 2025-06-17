@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const backBtn = document.getElementById('back-btn');
   const nextBtn = document.getElementById('next-btn');
   const showPwdCheckbox = document.getElementById('show-password');
+  const phoneInput = document.getElementById('phone');
 
   let currentStep = 0;
   updateFormSteps();
@@ -11,7 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (validateStep(currentStep)) {
       currentStep++;
       if (currentStep >= formSteps.length) {
-        console.log("Form submitted");
+        alert("Signup successful. Redirecting to login page...");
+        window.location.href = "login.html"; // replace with your login page path
         return;
       }
       updateFormSteps();
@@ -42,40 +44,81 @@ document.addEventListener("DOMContentLoaded", () => {
     if (confirm) confirm.type = type;
   });
 
+  phoneInput?.addEventListener('input', (e) => {
+    e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10);
+  });
+
   function validateStep(step) {
-    const fields = ['name', 'dob', 'email', 'password', 'confirm-password'];
-    const fieldId = fields[step];
-    if (!fieldId) return true;
+    const fields = ['name', 'dob', 'email', 'password', 'confirm-password', 'referral', 'phone'];
+    const id = fields[step];
+    const input = document.getElementById(id);
+    const error = document.getElementById(`error-${id}`);
+    if (!input || !error) return false;
 
-    const input = document.getElementById(fieldId);
-    const error = document.getElementById(`error-${fieldId}`);
-    if (error) error.textContent = '';
+    const value = input.value.trim();
+    error.textContent = "";
 
-    if (!input || !input.value.trim()) {
-      if (error) error.textContent = "This field is required.";
+    if (value === "") {
+      error.textContent = "This field is required.";
       return false;
     }
 
-    if (fieldId === 'email' && !/\S+@\S+\.\S+/.test(input.value.trim())) {
-      if (error) error.textContent = "Please enter a valid email.";
-      return false;
+    if (id === 'email') {
+      const emailRegex = /^\S+@\S+\.\S+$/;
+      if (!emailRegex.test(value)) {
+        error.textContent = "Please enter a valid email.";
+        return false;
+      }
     }
 
-    const pwd = document.getElementById('password')?.value.trim();
-    const confirm = document.getElementById('confirm-password')?.value.trim();
-    const errorConfirm = document.getElementById('error-confirm-password');
+    if (id === 'password') {
+      const pwdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
+      if (!pwdRegex.test(value)) {
+        error.textContent = "Password must include atleast 6 characters, uppercase, lowercase letter, number & symbol.";
+        return false;
+      }
 
-    if ((fieldId === 'password' || fieldId === 'confirm-password') && pwd && confirm && pwd !== confirm) {
-      if (errorConfirm) errorConfirm.textContent = "Passwords do not match.";
-      return false;
-    } else if (errorConfirm && pwd === confirm) {
-      errorConfirm.textContent = '';
+      // Also check confirm-password on same step
+      const confirmInput = document.getElementById('confirm-password');
+      const confirmError = document.getElementById('error-confirm-password');
+      const confirmValue = confirmInput.value.trim();
+      if (confirmValue === "") {
+        confirmError.textContent = "This field is required.";
+        return false;
+      } else {
+        confirmError.textContent = "";
+      }
+
+      if (value !== confirmValue) {
+        confirmError.textContent = "Passwords do not match.";
+        return false;
+      }
+    }
+
+    if (id === 'confirm-password') {
+      const pwd = document.getElementById('password').value.trim();
+      if (value === "") {
+        error.textContent = "This field is required.";
+        return false;
+      }
+      if (value !== pwd) {
+        error.textContent = "Passwords do not match.";
+        return false;
+      }
+    }
+
+    if (id === 'phone') {
+      const phoneValue = value.replace(/\D/g, '');
+      if (!/^\d{10}$/.test(phoneValue)) {
+        error.textContent = "Enter a valid 10-digit phone number.";
+        return false;
+      }
     }
 
     return true;
   }
 
-  // Constellation animation
+  // Canvas constellation background
   const canvas = document.getElementById('stars');
   const ctx = canvas.getContext('2d');
   let W, H;
