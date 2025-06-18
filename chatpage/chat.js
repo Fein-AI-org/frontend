@@ -9,13 +9,20 @@ export function initChat() {
   updateHistory();
   renderChat();
 
-  window.startNewChat = function () {
-    const title = `Chat #${chats.length + 1}`;
-    chats.push({ title, messages: [] });
-    currentChatIndex = chats.length - 1;
-    updateHistory();
-    renderChat();
-  };
+window.startNewChat = function () {
+  const title = `Chat #${chats.length + 1}`;
+  chats.push({ title, messages: [] });
+  currentChatIndex = chats.length - 1;
+  updateHistory();
+  renderChat();
+
+  const welcome = document.getElementById('welcomeSection');
+  if (welcome) {
+    welcome.style.display = 'flex';
+    welcome.classList.remove('fade-out');
+  }
+};
+
 
   window.sendMessage = function () {
     const input = document.getElementById('userInput');
@@ -25,10 +32,11 @@ export function initChat() {
     // Hide welcome message on first send
     const welcome = document.querySelector('.welcome-section');
     if (welcome) {
-      welcome.classList.add('fade-out');
-      setTimeout(() => {
-        welcome.remove(); // removes it entirely from DOM
-      }, 500);
+   welcome.classList.add('fade-out');
+setTimeout(() => {
+  welcome.style.display = 'none';
+}, 500);
+
     }
 
     chats[currentChatIndex].messages.push({ from: 'user', text: message });
@@ -46,6 +54,17 @@ function renderChat() {
   const currentChat = chats[currentChatIndex] || { messages: [] };
   const messages = currentChat.messages || [];
 
+  // Handle welcome section visibility
+  const welcome = document.getElementById('welcomeSection');
+  if (welcome) {
+    if (messages.length === 0) {
+      welcome.style.display = 'flex';
+      welcome.classList.remove('fade-out');
+    } else {
+      welcome.style.display = 'none';
+    }
+  }
+
   messages.forEach(msg => {
     const div = document.createElement('div');
     div.className = msg.from;
@@ -55,6 +74,7 @@ function renderChat() {
 
   chatWindow.scrollTop = chatWindow.scrollHeight;
 }
+
 
 function updateHistory() {
   const list = document.getElementById('historyList');

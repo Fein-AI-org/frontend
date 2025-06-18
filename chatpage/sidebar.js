@@ -1,17 +1,16 @@
 export function initSidebar() {
-  window.toggleSidebar = function () {
-    const sidebar = document.getElementById("sidebar");
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    sidebar.classList.toggle("collapsed");
+window.toggleSidebar = function () {
+  const sidebar = document.getElementById("sidebar");
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+  if (isMobile) {
     sidebar.classList.toggle("show");
-    if (isMobile) {
-      if (sidebar.classList.contains("show") && !sidebar.classList.contains("collapsed")) {
-        document.body.classList.add('sidebar-open');
-      } else {
-        document.body.classList.remove('sidebar-open');
-      }
-    }
-  };
+    document.body.classList.toggle('sidebar-open', sidebar.classList.contains("show"));
+  } else {
+    sidebar.classList.toggle("collapsed");
+  }
+};
+
 
   // Optional: close sidebar when clicking overlay on mobile
   if (!window._sidebarOverlayListener) {

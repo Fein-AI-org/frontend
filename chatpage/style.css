@@ -293,8 +293,7 @@ body {
     position: fixed;
     top: 0;
     left: -100vw;
-    width: 80vw;
-    max-width: 320px;
+    width: 100%;
     min-width: 0;
     height: 100vh;
     background-color: #121212;
