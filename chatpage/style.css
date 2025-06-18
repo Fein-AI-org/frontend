@@ -56,6 +56,7 @@ body {
 /* === Ensure menu toggle button is always visible on mobile === */
 .menu-toggle {
   display: block;
+  
   position: absolute;
   top: 16px;
   left: 16px;
@@ -696,6 +697,7 @@ body {
   color: #ffffff7b;
   letter-spacing: 2px;
   margin-right: auto;
+  margin-left: 48px;
   display: flex;
   align-items: center;
 }
