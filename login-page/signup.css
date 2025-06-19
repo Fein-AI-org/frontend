@@ -231,66 +231,17 @@ div.error-message {
 .form-navigation {
   display: flex;
   justify-content: space-between;
-  margin-top: 15px;
+  gap: 16px; 
 }
 
-.checkbox-label {
+.form-navigation button {
+  flex: 1 1 0;
+}
+.show-password-label {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 0.9em;
-  color: #ddf1a5;
-  margin-top: 10px;
-}
-form#multi-step-form {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-}
-form#multi-step-form .form-step {
-  display: none;
-  flex-direction: column;
+  gap: 2px; 
+  margin-left: 250px;
+  font-size: 0.95em;
   margin-bottom: 10px;
-}
-form#multi-step-form .form-step.active {
-  display: flex;
-}
-form#multi-step-form label {
-  margin-bottom: 8px;
-  font-weight: 600;
-  font-size: 1.1em;
-  color: #ddf1a5;
-}
-form#multi-step-form input {
-  padding: 12px;
-  margin-bottom: 18px;
-  border: 1px solid #ddf1a5;
-  background: transparent;
-  color: #ddf1a5;
-  border-radius: 6px;
-  width: 100%;
-  font-size: 1em;
-}
-form#multi-step-form .form-nav {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-  gap: 12px;
-}
-form#multi-step-form .form-nav button {
-  flex: 1;
-  padding: 12px;
-  background-color: #ddf1a5;
-  color: #0f0f0f;
-  font-weight: bold;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1em;
-}
-form#multi-step-form .form-nav button:hover {
-  background-color: #f7f3ea;
-  color: #1f1f1f;
 }
