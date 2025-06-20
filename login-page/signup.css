@@ -299,3 +299,17 @@ div.error-message {
 .form-navigation button {
   flex: 1 1 0;
 }
+.signup-status {
+  margin-top: 20px;
+  font-size: 0.9em;
+  text-align: center;
+  min-height: 20px;
+}
+
+.signup-status.success {
+  color: #a4f9a4; 
+}
+
+.signup-status.error {
+  color: #ff6b6b;
+}
