@@ -6,58 +6,85 @@ document.addEventListener("DOMContentLoaded", () => {
   const pwdError = document.getElementById('password-error');
   const togglePwdIcon = document.getElementById('toggle-password');
 
-  // 🚀 Auto-redirect if already logged in
+  // ✅ Auto-redirect if already logged in
   if (localStorage.getItem("feinai_token")) {
+    console.log("Token already present, redirecting...");
     window.location.href = "../question/index.html";
+    return;
   }
 
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    let valid = true;
-    emailError.textContent = '';
-    pwdError.textContent = '';
+form.addEventListener('submit', function (e) {
+  e.preventDefault();
 
-    const email = emailInput.value.trim();
-    const pwd = pwdInput.value.trim();
+  let valid = true;
+  emailError.textContent = '';
+  pwdError.textContent = '';
 
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      emailError.textContent = "Please enter a valid email address.";
-      valid = false;
+  const email = emailInput.value.trim();
+  const pwd = pwdInput.value.trim();
+
+  // ✅ Basic validation
+  if (!/\S+@\S+\.\S+/.test(email)) {
+    emailError.textContent = "Please enter a valid email address.";
+    valid = false;
+  }
+
+  if (!pwd) {
+    pwdError.textContent = "Password cannot be empty.";
+    valid = false;
+  }
+
+  if (!valid) {
+    console.warn("Form validation failed.");
+    return;
+  }
+
+  console.log("Sending login request...");
+
+  fetch("https://api.fein-ai.com/v1/login/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    credentials: "include",  // ✅ Send and receive cookies!
+    body: JSON.stringify({
+      email: email,
+      password: pwd
+    })
+  })
+  .then(async response => {
+    const contentType = response.headers.get("content-type");
+    let data;
+
+    try {
+      data = contentType && contentType.includes("application/json")
+        ? await response.json()
+        : { message: await response.text() };
+    } catch (e) {
+      console.error("Failed to parse response:", e);
+      pwdError.textContent = "Invalid server response.";
+      return;
     }
 
-    if (!pwd) {
-      pwdError.textContent = "Password cannot be empty.";
-      valid = false;
-    }
+    console.log("Login response status:", response.status);
+    console.log("Login response data:", data);
 
-    if (valid) {
-      fetch("https://api.fein-ai.com/v1/login/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          email: email,
-          password: pwd
-        })
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.token) {
-          localStorage.setItem("feinai_token", data.token);
-          window.location.href = "../question/index.html";
-        } else {
-          pwdError.textContent = "Invalid login credentials.";
-        }
-      })
-      .catch(err => {
-        console.error("Login error:", err);
-        pwdError.textContent = "Server error. Please try again.";
-      });
+    if (data.status === "ok") {
+      console.log("Login successful. Session cookie set.");
+      alert("Welcome back!");
+      window.location.href = "../question/index.html"; // ✅ Authenticated area
+    } else {
+      pwdError.textContent = data.message || "Invalid login credentials.";
     }
+  })
+  .catch(err => {
+    console.error("Network or server error during login:", err);
+    pwdError.textContent = "Server error. Please try again later.";
   });
+});
 
-  togglePwdIcon.addEventListener('click', () => {
+  // Toggle password visibility
+  togglePwdIcon?.addEventListener('click', () => {
     if (pwdInput.type === 'password') {
       pwdInput.type = 'text';
       togglePwdIcon.innerHTML = '<i class="ph ph-eye-slash"></i>';
@@ -67,6 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Social buttons
   document.getElementById('instagram-btn')?.addEventListener('click', (e) => {
     e.preventDefault();
     window.location.href = "https://instagram.com/";
@@ -101,6 +129,10 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     window.location.href = "signup.html";
   });
+
+  // Optional: Keep your stars background drawing logic here if you want it.
+
+
 
   // ======== CONSTELLATION BACKGROUND =========
   const canvas = document.getElementById('stars');
