@@ -231,27 +231,18 @@ div.error-message {
 .form-navigation {
   display: flex;
   justify-content: space-between;
-  margin-top: 15px;
+  gap: 16px; 
 }
 
-.checkbox-label {
+.form-navigation button {
+  flex: 1 1 0;
+}
+.show-password-label {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 0.9em;
-  color: #ddf1a5;
-  margin-top: 10px;
-}
-form#multi-step-form {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-}
-form#multi-step-form .form-step {
-  display: none;
-  flex-direction: column;
+  gap: 2px; 
+  margin-left: 250px;
+  font-size: 0.95em;
   margin-bottom: 10px;
 }
 form#multi-step-form .form-step.active {
