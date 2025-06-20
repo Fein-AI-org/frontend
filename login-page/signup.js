@@ -13,37 +13,39 @@ document.addEventListener("DOMContentLoaded", () => {
       currentStep++;
 
       if (currentStep >= formSteps.length) {
-        const name = document.getElementById('name').value.trim();
-        const dob = document.getElementById('dob').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value.trim();
+        const signupData = {
+          name: document.getElementById('name')?.value.trim(),
+          dob: document.getElementById('dob')?.value.trim(),
+          email: document.getElementById('email')?.value.trim(),
+          password: document.getElementById('password')?.value.trim(),
+          username: document.getElementById('name')?.value.trim().toLowerCase().replace(/\s+/g, ''),
+          referral: document.getElementById('referral')?.value.trim(),
+          phone: document.getElementById('phone')?.value.trim()
+        };
 
-        const formattedDob = new Date(dob).toLocaleDateString("en-GB");
+        nextBtn.disabled = true;
+        nextBtn.textContent = "Submitting...";
 
-        fetch("https://api.fein-ai.com/v1/register/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            email: email,
-            password: password,
-            username: name,
-            dob: formattedDob
-          })
+        fetch('https://api.fein-ai.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(signupData)
         })
-        .then(response => response.json())
+        .then(res => res.json())
         .then(data => {
-          if (data && data.success !== false) {
-            alert("Signup successful! Redirecting to login page...");
+          if (data.success || data.status === 'ok') {
             window.location.href = "login.html";
           } else {
             alert("Signup failed: " + (data.message || "Please try again."));
           }
         })
-        .catch(error => {
-          console.error("Signup error:", error);
-          alert("Something went wrong. Please try again later.");
+        .catch(err => {
+          console.error('Signup failed:', err);
+          alert("Signup failed. Please try again.");
+        })
+        .finally(() => {
+          nextBtn.disabled = false;
+          nextBtn.textContent = "Submit";
         });
 
         return;
@@ -82,11 +84,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function validateStep(step) {
-    const fields = ['name', 'dob', 'email', 'password', 'referral', 'phone'];
-    const id = fields[step] || 'confirm-password';
+    const fields = ['name', 'dob', 'email', 'password', 'confirm-password', 'referral', 'phone'];
+    const id = fields[step];
     const input = document.getElementById(id);
     const error = document.getElementById(`error-${id}`);
-    if (!input || !error) return true;
+    if (!input || !error) return false;
 
     const value = input.value.trim();
     error.textContent = "";
@@ -106,13 +108,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (id === 'password') {
       const pwdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
-      if (false) {
+      if (!pwdRegex.test(value)) {
         error.textContent = "Password must include at least 6 characters, uppercase, lowercase, number & symbol.";
         return false;
       }
 
-      const confirmValue = document.getElementById('confirm-password').value.trim();
+      const confirmInput = document.getElementById('confirm-password');
       const confirmError = document.getElementById('error-confirm-password');
+      const confirmValue = confirmInput.value.trim();
 
       if (confirmValue === "") {
         confirmError.textContent = "This field is required.";
@@ -120,7 +123,16 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (value !== confirmValue) {
+        confirmError.textContent = "";
         confirmError.textContent = "Passwords do not match.";
+        return false;
+      }
+    }
+
+    if (id === 'confirm-password') {
+      const pwd = document.getElementById('password').value.trim();
+      if (value !== pwd) {
+        error.textContent = "Passwords do not match.";
         return false;
       }
     }
@@ -136,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   }
 
-  // Animated Stars Background
+  // Constellation background animation
   const canvas = document.getElementById('stars');
   const ctx = canvas.getContext('2d');
   let W, H;
@@ -194,4 +206,20 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   draw();
+
+  // Social media redirects
+  document.getElementById('instagram-btn')?.addEventListener('click', e => {
+    e.preventDefault();
+    window.location.href = "https://instagram.com/";
+  });
+
+  document.getElementById('twitter-btn')?.addEventListener('click', e => {
+    e.preventDefault();
+    window.location.href = "https://twitter.com/";
+  });
+
+  document.getElementById('linkedin-btn')?.addEventListener('click', e => {
+    e.preventDefault();
+    window.location.href = "https://linkedin.com/";
+  });
 });
