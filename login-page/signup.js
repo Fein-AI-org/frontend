@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const nextBtn = document.getElementById('next-btn');
   const showPwdCheckbox = document.getElementById('show-password');
   const phoneInput = document.getElementById('phone');
-  const statusMessage = document.getElementById('signup-status');
 
   let currentStep = 0;
   updateFormSteps();
@@ -14,38 +13,37 @@ document.addEventListener("DOMContentLoaded", () => {
       currentStep++;
 
       if (currentStep >= formSteps.length) {
-        const signupData = {
-          name: document.getElementById('name')?.value.trim(),
-          dob: document.getElementById('dob')?.value.trim(),
-          email: document.getElementById('email')?.value.trim(),
-          password: document.getElementById('password')?.value.trim(),
-          username: document.getElementById('name')?.value.trim().toLowerCase().replace(/\s+/g, ''),
-          referral: document.getElementById('referral')?.value.trim(),
-          phone: document.getElementById('phone')?.value.trim()
-        };
+        const name = document.getElementById('name').value.trim();
+        const dob = document.getElementById('dob').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
 
-        fetch('https://api.fein-ai.com', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(signupData)
+        const formattedDob = new Date(dob).toLocaleDateString("en-GB");
+
+        fetch("https://api.fein-ai.com/v1/register/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+            username: name,
+            dob: formattedDob
+          })
         })
-        .then(res => res.json())
+        .then(response => response.json())
         .then(data => {
-          if (data.success || data.status === 'ok') {
-            statusMessage.textContent = "Signup successful! Redirecting to login...";
-            statusMessage.className = "signup-status success";
-            setTimeout(() => {
-              window.location.href = "login.html";
-            }, 1500);
+          if (data && data.success !== false) {
+            alert("Signup successful! Redirecting to login page...");
+            window.location.href = "login.html";
           } else {
-            statusMessage.textContent = "Signup failed: " + (data.message || "Please try again.");
-            statusMessage.className = "signup-status error";
+            alert("Signup failed: " + (data.message || "Please try again."));
           }
         })
-        .catch(err => {
-          console.error('Signup failed:', err);
-          statusMessage.textContent = "Signup failed. Please try again.";
-          statusMessage.className = "signup-status error";
+        .catch(error => {
+          console.error("Signup error:", error);
+          alert("Something went wrong. Please try again later.");
         });
 
         return;
@@ -84,11 +82,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function validateStep(step) {
-    const fields = ['name', 'dob', 'email', 'password', 'confirm-password', 'referral', 'phone'];
-    const id = fields[step];
+    const fields = ['name', 'dob', 'email', 'password', 'referral', 'phone'];
+    const id = fields[step] || 'confirm-password';
     const input = document.getElementById(id);
     const error = document.getElementById(`error-${id}`);
-    if (!input || !error) return false;
+    if (!input || !error) return true;
 
     const value = input.value.trim();
     error.textContent = "";
@@ -108,16 +106,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (id === 'password') {
       const pwdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
-      if (!pwdRegex.test(value)) {
-        error.textContent = "Password must include at least 6 characters, uppercase, lowercase letter, number & symbol.";
+      if (false) {
+        error.textContent = "Password must include at least 6 characters, uppercase, lowercase, number & symbol.";
         return false;
       }
 
-      const confirmInput = document.getElementById('confirm-password');
+      const confirmValue = document.getElementById('confirm-password').value.trim();
       const confirmError = document.getElementById('error-confirm-password');
-      const confirmValue = confirmInput.value.trim();
 
-      confirmError.textContent = "";
       if (confirmValue === "") {
         confirmError.textContent = "This field is required.";
         return false;
@@ -125,14 +121,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (value !== confirmValue) {
         confirmError.textContent = "Passwords do not match.";
-        return false;
-      }
-    }
-
-    if (id === 'confirm-password') {
-      const pwd = document.getElementById('password').value.trim();
-      if (value !== pwd) {
-        error.textContent = "Passwords do not match.";
         return false;
       }
     }
@@ -148,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   }
 
-  // Constellation background animation
+  // Animated Stars Background
   const canvas = document.getElementById('stars');
   const ctx = canvas.getContext('2d');
   let W, H;
@@ -169,7 +157,6 @@ document.addEventListener("DOMContentLoaded", () => {
     W = canvas.width = window.innerWidth;
     H = canvas.height = window.innerHeight;
   }
-
   window.addEventListener('resize', resize);
   resize();
 
@@ -207,20 +194,4 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   draw();
-
-  // Social button redirects
-  document.getElementById('instagram-btn')?.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.location.href = "https://instagram.com/";
-  });
-
-  document.getElementById('twitter-btn')?.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.location.href = "https://twitter.com/";
-  });
-
-  document.getElementById('linkedin-btn')?.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.location.href = "https://linkedin.com/";
-  });
 });
