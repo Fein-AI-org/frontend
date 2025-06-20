@@ -6,6 +6,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const pwdError = document.getElementById('password-error');
   const togglePwdIcon = document.getElementById('toggle-password');
 
+  // 🚀 Auto-redirect if already logged in
+  if (localStorage.getItem("feinai_token")) {
+    window.location.href = "../question/index.html";
+  }
+
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     let valid = true;
@@ -26,7 +31,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (valid) {
-      window.location.href = "../question/index.html";
+      fetch("https://api.fein-ai.com/v1/login/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: email,
+          password: pwd
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.token) {
+          localStorage.setItem("feinai_token", data.token);
+          window.location.href = "../question/index.html";
+        } else {
+          pwdError.textContent = "Invalid login credentials.";
+        }
+      })
+      .catch(err => {
+        console.error("Login error:", err);
+        pwdError.textContent = "Server error. Please try again.";
+      });
     }
   });
 

@@ -11,11 +11,44 @@ document.addEventListener("DOMContentLoaded", () => {
   nextBtn.addEventListener('click', () => {
     if (validateStep(currentStep)) {
       currentStep++;
+
       if (currentStep >= formSteps.length) {
-        alert("Signup successful. Redirecting to login page...");
-        window.location.href = "login.html"; // replace with your login page path
+        const name = document.getElementById('name').value.trim();
+        const dob = document.getElementById('dob').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        const formattedDob = new Date(dob).toLocaleDateString("en-GB");
+
+        fetch("https://api.fein-ai.com/v1/register/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+            username: name,
+            dob: formattedDob
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data && data.success !== false) {
+            alert("Signup successful! Redirecting to login page...");
+            window.location.href = "login.html";
+          } else {
+            alert("Signup failed: " + (data.message || "Please try again."));
+          }
+        })
+        .catch(error => {
+          console.error("Signup error:", error);
+          alert("Something went wrong. Please try again later.");
+        });
+
         return;
       }
+
       updateFormSteps();
     }
   });
@@ -49,11 +82,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function validateStep(step) {
-    const fields = ['name', 'dob', 'email', 'password', 'confirm-password', 'referral', 'phone'];
-    const id = fields[step];
+    const fields = ['name', 'dob', 'email', 'password', 'referral', 'phone'];
+    const id = fields[step] || 'confirm-password';
     const input = document.getElementById(id);
     const error = document.getElementById(`error-${id}`);
-    if (!input || !error) return false;
+    if (!input || !error) return true;
 
     const value = input.value.trim();
     error.textContent = "";
@@ -73,36 +106,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (id === 'password') {
       const pwdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
-      if (!pwdRegex.test(value)) {
-        error.textContent = "Password must include atleast 6 characters, uppercase, lowercase letter, number & symbol.";
+      if (false) {
+        error.textContent = "Password must include at least 6 characters, uppercase, lowercase, number & symbol.";
         return false;
       }
 
-      // Also check confirm-password on same step
-      const confirmInput = document.getElementById('confirm-password');
+      const confirmValue = document.getElementById('confirm-password').value.trim();
       const confirmError = document.getElementById('error-confirm-password');
-      const confirmValue = confirmInput.value.trim();
+
       if (confirmValue === "") {
         confirmError.textContent = "This field is required.";
         return false;
-      } else {
-        confirmError.textContent = "";
       }
 
       if (value !== confirmValue) {
         confirmError.textContent = "Passwords do not match.";
-        return false;
-      }
-    }
-
-    if (id === 'confirm-password') {
-      const pwd = document.getElementById('password').value.trim();
-      if (value === "") {
-        error.textContent = "This field is required.";
-        return false;
-      }
-      if (value !== pwd) {
-        error.textContent = "Passwords do not match.";
         return false;
       }
     }
@@ -118,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   }
 
-  // Canvas constellation background
+  // Animated Stars Background
   const canvas = document.getElementById('stars');
   const ctx = canvas.getContext('2d');
   let W, H;
