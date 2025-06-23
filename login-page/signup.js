@@ -105,11 +105,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (id === 'password') {
-      const pwdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
-      if (false) {
-        error.textContent = "Password must include at least 6 characters, uppercase, lowercase, number & symbol.";
-        return false;
-      }
+      // const pwdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
+      // if (false) {
+      //   error.textContent = "Password must include at least 6 characters, uppercase, lowercase, number & symbol.";
+      //   return false;
+      // }
 
       const confirmValue = document.getElementById('confirm-password').value.trim();
       const confirmError = document.getElementById('error-confirm-password');
