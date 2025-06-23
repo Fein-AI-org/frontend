@@ -2,96 +2,158 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FEIN AI Financial Survey</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FeinAI Financial Form</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="card">
-    <h1>Financial Profile Survey</h1>
-    <p>Please complete this short survey to help us personalize your experience.</p>
-
-    <div class="progress-text" id="progressText">0% complete</div>
-    <div class="progress-container">
-      <div id="progressBar" class="progress-bar"></div>
+  <div class="container">
+    <div class="header">
+      <button onclick="goBack()">← Back</button>
+      <button>FeinAI</button>
     </div>
 
-    <form id="financeForm">
-      <label for="age">1. What is your age?</label>
-      <input type="number" id="age" name="age" min="21" max="100" required />
+    <h2 class="title">Financial Health Assessment</h2>
+    <div class="step-indicator" id="stepIndicator">Step 1 of 5</div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressBar"></div>
+    </div>
 
-      <label for="salary">2. What is your annual salary (in INR)?</label>
-      <input type="number" id="salary" name="salary" min="0" required />
-
-      <label for="cityIndex">3. What is the cost index of your city? (e.g., 1.2)</label>
-      <input type="number" step="0.01" id="cityIndex" name="cityIndex" min="0" required />
-
-      <label for="assets">4. Total asset value (in INR)</label>
-      <input type="number" id="assets" name="assets" min="0" required />
-
-      <label for="liabilities">5. Total liability amount (in INR)</label>
-      <input type="number" id="liabilities" name="liabilities" min="0" required />
-
-      <label for="loanCount">6. Number of active loans</label>
-      <input type="number" id="loanCount" name="loanCount" min="0" required />
-
-      <label for="emi">7. Total annual EMI payment (in INR)</label>
-      <input type="number" id="emi" name="emi" min="0" required />
-
-      <label for="dependents">8. Number of financial dependents</label>
-      <input type="number" id="dependents" name="dependents" min="0" required />
-
-      <label for="creditScore">9. Credit score (300 to 850)</label>
-      <input type="number" id="creditScore" name="creditScore" min="300" max="850" required />
-
-      <label for="budget">10. Do you follow a monthly budget?</label>
-      <select id="budget" name="budget" required>
-        <option value="">Select</option>
-        <option>Yes</option>
-        <option>No</option>
-      </select>
-
-      <label for="insurance">11. Do you have any insurance coverage?</label>
-      <select id="insurance" name="insurance" required>
-        <option value="">Select</option>
-        <option>None</option>
-        <option>Health Insurance</option>
-        <option>Life Insurance</option>
-        <option>Both</option>
-      </select>
-
-      <label for="tracking">12. How often do you track your expenses?</label>
-      <select id="tracking" name="tracking" required>
-        <option value="">Select</option>
-        <option>Never</option>
-        <option>Occasionally</option>
-        <option>Monthly</option>
-        <option>Daily</option>
-      </select>
-
-      <label for="advisor">13. Do you consult a financial advisor?</label>
-      <select id="advisor" name="advisor" required>
-        <option value="">Select</option>
-        <option>Yes</option>
-        <option>No</option>
-      </select>
-
-      <label for="riskTolerance">14. Rate your risk tolerance (0 = Low, 10 = High)</label>
-      <input type="range" id="riskTolerance" name="riskTolerance" min="0" max="10" value="5" />
-      <div class="slider-label">
-        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+    <form id="multiStepForm" novalidate>
+      
+      <div class="form-step" id="step1">
+        <div class="form-box">
+          <h3>📊 Basic Information</h3>
+          <div class="form-grid">
+            <div><label for="age">Age</label><input type="number" name="age" id="age" placeholder="Enter your age" required min="18" /></div>
+            <div><label for="salary">Annual Salary (₹)</label><input type="number" name="salary" id="salary" placeholder="Enter annual salary" required min="0"/></div>
+            <div><label for="cityIndex">City Cost Index</label>
+              <select name="cityIndex" id="cityIndex">
+                <option value="1.0">Average Cost (1.0)</option>
+                <option value="0.8">Low Cost (0.8)</option>
+                <option value="1.2">High Cost (1.2)</option>
+              </select>
+            </div>
+            <div><label for="dependents">Financial Dependents</label><input type="number" name="dependents" id="dependents" placeholder="Enter financial dependents" required min="0"/></div>
+          </div>
+        </div>
       </div>
 
-      <label for="confidence">15. Confidence in managing finances (0 = Not confident, 10 = Very confident)</label>
-      <input type="range" id="confidence" name="confidence" min="0" max="10" value="5" />
-      <div class="slider-label">
-        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+      
+      <div class="form-step hidden" id="step2">
+        <div class="form-box">
+          <h3>💵 Assets & Liabilities</h3>
+          <div class="form-grid">
+            <div><label for="assets">Total Assets (₹)</label><input type="number" name="assets" id="assets" placeholder="Enter total assets (₹)" required min="0"/></div>
+            <div><label for="liabilities">Total Liabilities (₹)</label><input type="number" name="liabilities" id="liabilities" placeholder="Enter total liabilities (₹)" required min="0"/></div>
+            <div><label for="loanCount">Number of Active Loans</label><input type="number" name="loanCount" id="loanCount" placeholder="Enter number of active loans" required min="0"/></div>
+            <div><label for="emi">Annual EMI Payments (₹)</label><input type="number" name="emi" id="emi" placeholder="Enter annual emi payments (₹)" required min="0"/></div>
+          </div>
+        </div>
       </div>
 
-      <button type="submit">Submit</button>
-      <a class="skip-link" onclick="skipSurvey()">Skip this survey</a>
+      
+      <div class="form-step hidden" id="step3">
+        <div class="form-box">
+          <h3>📈 Financial Details</h3>
+          <div class="form-grid">
+            <div><label for="liquidSavings">Liquid Savings (₹)</label><input type="number" name="liquidSavings" id="liquidSavings" placeholder="Enter liquid savings (₹)" required min="0"/></div>
+            <div><label for="creditScore">Credit Score (300-850)</label><input type="number" name="creditScore" id="creditScore" placeholder="Enter credit score (300-850)" min="300" max="850" required /></div>
+            <div><label for="investments">Total Investments (₹)</label><input type="number" name="investments" id="investments" placeholder="Enter total investments (₹)" required min="0"/></div>
+            <div><label for="monthlyExpenses">Monthly Expenses (₹)</label><input type="number" name="monthlyExpenses" id="monthlyExpenses" placeholder="Enter monthly expenses (₹)" required min="0"/></div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="form-step hidden" id="step4">
+        <div class="form-box">
+          <h3>🎯 Risk & Preferences</h3>
+          <div class="form-grid">
+            <div><label for="riskTolerance">Risk Tolerance (0.0 - 1.0)</label><input type="number" name="riskTolerance" id="riskTolerance" step="0.1" min="0" max="1" placeholder="0.0 to 1.0" required /></div>
+            <div><label for="highRiskPct">High-Risk Investment % (0-100)</label><input type="number" name="highRiskPct" id="highRiskPct" min="0" max="100" placeholder="Enter high-risk investment % (0-100)" required /></div>
+            <div><label for="confidence">Financial Confidence (1-10)</label><input type="number" name="confidence" id="confidence" min="1" max="10" placeholder="1 to 10" required /></div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="form-step hidden" id="step5">
+        <div class="form-box">
+          <h3>📝 Financial Habits</h3>
+          <div class="form-grid">
+            <div class="toggle-container" tabindex="0">
+              <label class="switch">
+                <input type="checkbox" name="followBudget">
+                <span class="slider"></span>
+              </label>
+              <span class="toggle-label-text">Follow Monthly Budget</span>
+            </div>
+            <div class="input-box">
+              <label for="insurance">Insurance Coverage</label>
+              <select name="insurance" id="insurance">
+                <option>None</option>
+                <option>Life</option>
+                <option>Health</option>
+                <option>Life & Health</option>
+              </select>
+            </div>
+            <div class="input-box">
+              <label for="trackingFrequency">Expense Tracking Frequency</label>
+              <select name="trackingFrequency" id="trackingFrequency">
+                <option>Never</option>
+                <option>Sometimes</option>
+                <option>Regularly</option>
+              </select>
+            </div>
+            <div class="toggle-container" tabindex="0">
+              <label class="switch">
+                <input type="checkbox" name="retirementPlan">
+                <span class="slider"></span>
+              </label>
+              <span class="toggle-label-text">Have Retirement Plan</span>
+            </div>
+            <div class="toggle-container" tabindex="0">
+              <label class="switch">
+                <input type="checkbox" name="autoInvest">
+                <span class="slider"></span>
+              </label>
+              <span class="toggle-label-text">Automate Savings/Investments</span>
+            </div>
+            <div class="toggle-container" tabindex="0">
+              <label class="switch">
+                <input type="checkbox" name="loanDefault">
+                <span class="slider"></span>
+              </label>
+              <span class="toggle-label-text">Ever Defaulted on Loan</span>
+            </div>
+            <div class="toggle-container" tabindex="0">
+              <label class="switch">
+                <input type="checkbox" name="consultAdvisor">
+                <span class="slider"></span>
+              </label>
+              <span class="toggle-label-text">Consult Financial Advisor</span>
+            </div>
+            <div class="toggle-container" tabindex="0">
+              <label class="switch">
+                <input type="checkbox" name="reviewGoals">
+                <span class="slider"></span>
+              </label>
+              <span class="toggle-label-text">Regularly Review Goals</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="actions">
+        <button type="button" id="prevBtn" onclick="prevStep()">← Previous</button>
+        <button type="button" id="nextBtn" onclick="nextStep()">Next →</button>
+        <button type="submit" id="submitBtn" class="hidden">Generate Report &#128203;</button>
+      </div>
     </form>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
