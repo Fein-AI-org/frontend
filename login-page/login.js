@@ -7,11 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const pwdError = document.getElementById('password-error');
   const togglePwdIcon = document.getElementById('toggle-password');
 
-  if (localStorage.getItem("feinai_token")) {
-    console.log("Token already present, redirecting...");
-    window.location.href = "../question/index.html";
-    return;
-  }
+
 
 form.addEventListener('submit', function (e) {
   e.preventDefault();

@@ -133,6 +133,10 @@ function goBack() {
     }
 }
 
+function skipButton(){
+  window.location.href = '../chatpage/index.html';
+}
+
 
 document.querySelectorAll('.toggle-container').forEach(container => {
   const checkbox = container.querySelector('input[type="checkbox"]');

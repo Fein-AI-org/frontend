@@ -1,52 +1,123 @@
-let chats = [{
-  title: 'Chat #1',
-  messages: []
-}];
-
+let chats = [];
 let currentChatIndex = 0;
 
 export function initChat() {
-  updateHistory();
-  renderChat();
-
-window.startNewChat = function () {
-  const title = `Chat #${chats.length + 1}`;
-  chats.push({ title, messages: [] });
-  currentChatIndex = chats.length - 1;
-  updateHistory();
-  renderChat();
-
-  const welcome = document.getElementById('welcomeSection');
-  if (welcome) {
-    welcome.style.display = 'flex';
-    welcome.classList.remove('fade-out');
-  }
-};
-
-
-  window.sendMessage = function () {
-    const input = document.getElementById('userInput');
-    const message = input.value.trim();
-    if (!message) return;
-
-    // Hide welcome message on first send
-    const welcome = document.querySelector('.welcome-section');
-    if (welcome) {
-   welcome.classList.add('fade-out');
-setTimeout(() => {
-  welcome.style.display = 'none';
-}, 500);
-
-    }
-
-    chats[currentChatIndex].messages.push({ from: 'user', text: message });
-    chats[currentChatIndex].messages.push({ from: 'ai', text: `AI says: "${message}"` });
-
-    input.value = '';
-    renderChat();
-  };
+  loadInitialChats();
 }
 
+// Load poorane ajeeb ajeeb initial conversations and populate UIIIII
+function loadInitialChats() {
+  fetch("https://api.fein-ai.com/v1/conversations/", {
+    method: "GET",
+    credentials: "include"
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === "ok" && Array.isArray(data.conversation_ids)) {
+        if (data.conversation_ids.length === 0) {
+          // If no chats yet, auto-create one
+          startNewChat(true);
+          return;
+        }
+
+        chats = data.conversation_ids.map((id, index) => ({
+          id,
+          title: `Chat #${index + 1}`,
+          messages: []
+        }));
+
+        currentChatIndex = 0;
+        updateHistory();
+        fetchChatHistory(chats[currentChatIndex].id);
+      }
+    })
+    .catch(err => {
+      console.error("Failed to fetch conversations:", err);
+    });
+}
+
+// Start new chat
+window.startNewChat = function (auto = false) {
+  fetch("https://api.fein-ai.com/v1/conversations/", {
+    method: "POST",
+    credentials: "include"
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === "ok" && data.conversation_id) {
+        const title = `Chat #${chats.length + 1}`;
+        chats.push({ id: data.conversation_id, title, messages: [] });
+        currentChatIndex = chats.length - 1;
+        updateHistory();
+        renderChat();
+
+        if (!auto) {
+          const welcome = document.getElementById('welcomeSection');
+          if (welcome) {
+            welcome.style.display = 'flex';
+            welcome.classList.remove('fade-out');
+          }
+        }
+      }
+    })
+    .catch(err => {
+      console.error("Failed to start new chat:", err);
+    });
+};
+
+// Fetching chaaaaaaaaat history
+function fetchChatHistory(conversationId) {
+  fetch(`https://api.fein-ai.com/v1/conversations/${conversationId}`, {
+    method: "GET",
+    credentials: "include"
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === "ok" && Array.isArray(data.messages)) {
+        chats[currentChatIndex].messages = data.messages;
+        renderChat();
+      }
+    })
+    .catch(err => {
+      console.error("Failed to fetch chat history:", err);
+    });
+}
+
+//  Sending  message to FEIN BABA
+window.sendMessage = function () {
+  const input = document.getElementById('userInput');
+  const message = input.value.trim();
+  if (!message) return;
+
+  const chatId = chats[currentChatIndex].id;
+  chats[currentChatIndex].messages.push({ from: 'user', text: message });
+  renderChat();
+  input.value = '';
+
+  fetch(`https://api.fein-ai.com/v1/conversations/${chatId}`, {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text: message })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === "ok") {
+        chats[currentChatIndex].messages.push({ from: 'ai', text: data.response });
+        renderChat();
+      } else {
+        chats[currentChatIndex].messages.push({ from: 'ai', text: "AI failed to respond." });
+        renderChat();
+      }
+    })
+    .catch(err => {
+      console.error("Failed to get AI response:", err);
+      chats[currentChatIndex].messages.push({ from: 'ai', text: "Server error." });
+      renderChat();
+    });
+};
+
+//  chat window
 function renderChat() {
   const chatWindow = document.getElementById('chatWindow');
   chatWindow.innerHTML = '';
@@ -54,15 +125,10 @@ function renderChat() {
   const currentChat = chats[currentChatIndex] || { messages: [] };
   const messages = currentChat.messages || [];
 
-  // Handle welcome section visibility
   const welcome = document.getElementById('welcomeSection');
   if (welcome) {
-    if (messages.length === 0) {
-      welcome.style.display = 'flex';
-      welcome.classList.remove('fade-out');
-    } else {
-      welcome.style.display = 'none';
-    }
+    welcome.style.display = messages.length === 0 ? 'flex' : 'none';
+    if (messages.length === 0) welcome.classList.remove('fade-out');
   }
 
   messages.forEach(msg => {
@@ -75,7 +141,7 @@ function renderChat() {
   chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
-
+//  Update chat history sidebar
 function updateHistory() {
   const list = document.getElementById('historyList');
   list.innerHTML = '';
@@ -90,7 +156,7 @@ function updateHistory() {
     titleButton.onclick = () => {
       currentChatIndex = i;
       updateHistory();
-      renderChat();
+      fetchChatHistory(chats[currentChatIndex].id);
     };
 
     const menuIcon = document.createElement('i');
@@ -114,12 +180,12 @@ function updateHistory() {
     list.appendChild(wrapper);
   });
 
-  // Close dropdowns if clicked outside
   document.addEventListener('click', () => {
     document.querySelectorAll('.chat-dropdown').forEach(d => d.style.display = 'none');
   });
 }
 
+//  Dropdown of Rename/Delete
 window.toggleDropdown = function (index) {
   document.querySelectorAll('.chat-dropdown').forEach((dropdown, i) => {
     dropdown.style.display = i === index && dropdown.style.display !== 'block' ? 'block' : 'none';
