@@ -13,24 +13,22 @@ document.addEventListener("DOMContentLoaded", () => {
       currentStep++;
   
       if (currentStep >= formSteps.length) {
-        const name = document.getElementById('name').value.trim();
-        const dob = document.getElementById('dob').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value.trim();
-
-        const formattedDob = new Date(dob).toLocaleDateString("en-GB");
+        const signupData = {
+          name: document.getElementById('name')?.value.trim(),
+          dob: document.getElementById('dob')?.value.trim(),
+          email: document.getElementById('email')?.value.trim(),
+          password: document.getElementById('password')?.value.trim(),
+          username: document.getElementById('name')?.value.trim().toLowerCase().replace(/\s+/g, ''),
+          referral: document.getElementById('referral')?.value.trim(),
+          phone: document.getElementById('phone')?.value.trim()
+        };
 
         fetch("https://api.fein-ai.com/v1/register/", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({
-            email: email,
-            password: password,
-            username: name,
-            dob: formattedDob
-          })
+          body: JSON.stringify(signupData)
         })
         .then(response => response.json())
         .then(data => {
@@ -91,11 +89,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const value = input.value.trim();
     error.textContent = "";
 
-    if (value === "") {
-      error.textContent = "This field is required.";
-      return false;
-    }
-
     if (id === 'email') {
       const emailRegex = /^\S+@\S+\.\S+$/;
       if (!emailRegex.test(value)) {
@@ -105,12 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (id === 'password') {
-      const pwdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
-      if (false) {
-        error.textContent = "Password must include at least 6 characters, uppercase, lowercase, number & symbol.";
-        return false;
-      }
-
       const confirmValue = document.getElementById('confirm-password').value.trim();
       const confirmError = document.getElementById('error-confirm-password');
 
