@@ -117,7 +117,7 @@ form.addEventListener('submit', function(e) {
         } else {
             redirectMessage.textContent = 'Redirecting...';
             clearInterval(intervalId);
-            window.location.href = 'report.html'; 
+            window.location.href = '../chatpage/index.html'; 
         }
     };
 

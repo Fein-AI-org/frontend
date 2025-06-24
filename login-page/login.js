@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+
   const form = document.getElementById('login-form');
   const emailInput = document.getElementById('login-email');
   const pwdInput = document.getElementById('login-password');
@@ -6,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const pwdError = document.getElementById('password-error');
   const togglePwdIcon = document.getElementById('toggle-password');
 
-  // ✅ Auto-redirect if already logged in
   if (localStorage.getItem("feinai_token")) {
     console.log("Token already present, redirecting...");
     window.location.href = "../question/index.html";
@@ -46,7 +46,7 @@ form.addEventListener('submit', function (e) {
     headers: {
       "Content-Type": "application/json"
     },
-    credentials: "include",  // ✅ Send and receive cookies!
+    credentials: "include", 
     body: JSON.stringify({
       email: email,
       password: pwd
@@ -72,7 +72,7 @@ form.addEventListener('submit', function (e) {
     if (data.status === "ok") {
       console.log("Login successful. Session cookie set.");
       alert("Welcome back!");
-      window.location.href = "../question/index.html"; // ✅ Authenticated area
+      window.location.href = "../question/index.html"; // 
     } else {
       pwdError.textContent = data.message || "Invalid login credentials.";
     }
@@ -193,4 +193,4 @@ form.addEventListener('submit', function (e) {
   }
 
   draw();
-});
+}); 
