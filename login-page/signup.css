@@ -1,10 +1,18 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html, body {
-  height: 100%;
+  height: auto;
+  min-height: 100%;
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
   color: #ddf1a5;
   background-color: #0f0f0f;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 canvas#stars {
@@ -16,7 +24,8 @@ canvas#stars {
 
 .container {
   display: flex;
-  height: 100vh;
+  flex-direction: row;
+  min-height: 100vh;
   position: relative;
   z-index: 1;
 }
@@ -38,12 +47,10 @@ canvas#stars {
 }
 
 .left-content {
-  margin-bottom: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex: 1;
   margin-top: auto;
   margin-bottom: auto;
 }
@@ -75,7 +82,7 @@ canvas#stars {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  padding: 40px;
 }
 
 .form-box {
@@ -88,9 +95,7 @@ canvas#stars {
   width: 100%;
   max-width: 350px;
   text-align: center;
-  margin: 0;
-  margin-top: auto;
-  margin-bottom: auto;
+  margin: auto;
 }
 
 h2 {
@@ -184,22 +189,32 @@ div.error-message {
   text-decoration: underline;
 }
 
+/* === RESPONSIVE: MOBILE-FIRST === */
 @media (max-width: 768px) {
   .container {
-    flex-direction: column-reverse;
+    flex-direction: column;
     height: auto;
   }
 
-  .left, .right {
+  .right {
+    order: 1;
     width: 100%;
     padding: 20px;
-    border-radius: 0;
-    box-shadow: none;
+    justify-content: center;
+  }
+
+  .left {
+    order: 2;
+    width: 100%;
+    padding: 20px;
+    justify-content: center;
+    margin-top: 20px;
   }
 
   .form-box {
     max-width: 95%;
     padding: 20px;
+    margin: 0 auto;
   }
 }
 
@@ -207,7 +222,6 @@ div.error-message {
   .form-box {
     padding: 15px;
     max-width: 90%;
-    margin: 0 auto;
   }
 }
 
@@ -223,6 +237,7 @@ div.error-message {
   }
 }
 
+/* === MULTI-STEP FORM === */
 .form-step {
   display: none;
   flex-direction: column;
@@ -285,10 +300,9 @@ div.error-message {
   gap: 6px;
   font-size: 0.95em;
   margin-bottom: 10px;
-  justify-content: flex-start; 
+  justify-content: flex-start;
   margin-right: 250px;
 }
-
 
 .form-navigation {
   display: flex;
@@ -299,6 +313,7 @@ div.error-message {
 .form-navigation button {
   flex: 1 1 0;
 }
+
 .signup-status {
   margin-top: 20px;
   font-size: 0.9em;
@@ -307,7 +322,7 @@ div.error-message {
 }
 
 .signup-status.success {
-  color: #a4f9a4; 
+  color: #a4f9a4;
 }
 
 .signup-status.error {
