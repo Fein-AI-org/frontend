@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FeinAI Financial Form</title>
-  <link rel="stylesheet" href="styles.css">
+  
 </head>
 <body>
   <div class="container">
     <div class="header">
       <button onclick="goBack()">← Back</button>
-      <button onclick="skipButton()">FeinAI</button>
+      <button>FeinAI</button>
     </div>
 
     <h2 class="title">Financial Health Assessment</h2>
@@ -147,13 +147,15 @@
 
       
       <div class="actions">
-        <button type="button" id="prevBtn" onclick="prevStep()">← Previous</button>
+        <button type="button" id="prevBtn" onclick="goBack()">← Previous</button>
         <button type="button" id="nextBtn" onclick="nextStep()">Next →</button>
         <button type="submit" id="submitBtn" class="hidden">Generate Report &#128203;</button>
+        <button type="button" id="skipBtn" style="background-color: #b5ff60; color: #222; border: none; padding: 12px 30px; font-weight: bold; border-radius: 10px; cursor: pointer; transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; margin-left: 10px;">Skip Survey</button>
       </div>
     </form>
   </div>
 
-  <script src="script.js"></script>
+
 </body>
 </html>
+
