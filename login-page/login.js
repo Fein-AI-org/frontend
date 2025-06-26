@@ -7,8 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const pwdError = document.getElementById('password-error');
   const togglePwdIcon = document.getElementById('toggle-password');
 
-
-
 form.addEventListener('submit', function (e) {
   e.preventDefault();
 
@@ -19,7 +17,6 @@ form.addEventListener('submit', function (e) {
   const email = emailInput.value.trim();
   const pwd = pwdInput.value.trim();
 
-  // ✅ Basic validation
   if (!/\S+@\S+\.\S+/.test(email)) {
     emailError.textContent = "Please enter a valid email address.";
     valid = false;
@@ -125,10 +122,6 @@ form.addEventListener('submit', function (e) {
     e.preventDefault();
     window.location.href = "signup.html";
   });
-
-  // Optional: Keep your stars background drawing logic here if you want it.
-
-
 
   // ======== CONSTELLATION BACKGROUND =========
   const canvas = document.getElementById('stars');
