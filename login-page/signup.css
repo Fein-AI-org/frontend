@@ -53,6 +53,8 @@ canvas#stars {
   justify-content: center;
   margin-top: auto;
   margin-bottom: auto;
+  font-size: 1.3em;
+  margin-top: 200px;
 }
 
 .bottom-section {
