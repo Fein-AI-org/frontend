@@ -309,14 +309,26 @@ body {
 }
 
 /* === RESPONSIVE === */
+/* Tablet and Desktop */
+@media (min-width: 769px) {
+  .menu-toggle {
+    display: none; /* Hide hamburger menu on larger screens */
+  }
+  .sidebar-close-btn {
+    display: none; /* Hide close button on larger screens */
+  }
+}
+
+/* Mobile devices */
 @media (max-width: 768px) {
-    .sidebar-close-btn {
-    display: block;
+  .sidebar-close-btn {
+    display: block; /* Show close button for sidebar */
   }
 
   .sidebar-content {
     margin-top: 50px; /* Push content below the X button */
   }
+
   .container {
     flex-direction: column;
     height: 100vh;
@@ -324,53 +336,64 @@ body {
   }
 
   .sidebar {
-    position: fixed;
+    position: fixed; /* Changed from absolute for better control */
     top: 0;
-    left: -100vw;
-    width: 100%;
+    left: -100vw; /* Start off-screen */
+    width: 85%; /* Don't take full width, allow overlay effect */
+    max-width: 300px; /* Max width for larger mobile screens */
     min-width: 0;
     height: 100vh;
     background-color: #121212;
     z-index: 2000;
     transition: left 0.3s cubic-bezier(.4,0,.2,1);
     box-shadow: 2px 0 16px rgba(0,0,0,0.5);
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
-    padding: 16px 0 16px 16px;
+    /* border-top-right-radius: 12px; */ /* Removed for full height feel */
+    /* border-bottom-right-radius: 12px; */ /* Removed for full height feel */
+    padding: 16px; /* Uniform padding */
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px; /* Slightly reduced gap */
   }
 
   .sidebar.show {
     left: 0;
   }
 
-  .sidebar.collapsed {
-    left: -100vw !important;
-    width: 0 !important;
-    min-width: 0 !important;
-    padding: 0 !important;
-    overflow: hidden !important;
-    box-shadow: none !important;
-  }
+  /* .sidebar.collapsed styles are implicitly handled by .sidebar default (left: -100vw) */
 
   .main {
     margin-left: 0;
     width: 100vw;
-    padding-top: 60px;
+    padding-top: 70px; /* Increased to accommodate larger topbar elements if needed */
+  }
+
+  .topbar {
+    padding: 12px 16px; /* Adjusted padding */
+    position: fixed; /* Make topbar sticky */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1001; /* Ensure it's above main content but below sidebar */
+  }
+
+  .fein-ai-title {
+    margin-left: 8px; /* Reduced left margin when menu toggle is visible */
+    font-size: 1.1rem; /* Slightly smaller on mobile */
   }
 
   .menu-toggle {
-    position: fixed;
-    top: 16px;
-    left: 16px;
-    z-index: 2100;
-    background-color: #2a2a2a;
+    position: relative; /* Changed from fixed as topbar is now fixed */
+    top: auto;
+    left: auto;
+    /* z-index: 2100; */ /* No longer needed here as topbar handles z-index */
     padding: 8px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    font-size: 1.2rem; /* Ensure good tap size */
+  }
+
+  .topbar .profile-button img {
+    width: 32px; /* Slightly smaller profile image */
+    height: 32px;
   }
 
   /* Optional: dark overlay when sidebar is open */
@@ -378,11 +401,165 @@ body {
     content: '';
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: 1999;
-    pointer-events: auto;
+    background: rgba(0,0,0,0.6); /* Darker overlay */
+    z-index: 1999; /* Below sidebar, above main content */
+    pointer-events: auto; /* Allow clicks if needed, though usually not */
+  }
+
+  .chat-input {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 12px; /* Adjusted padding */
+    background-color: #181818;
+    z-index: 100;
+    border-top: 1px solid #333;
+  }
+
+  .input-with-buttons input[type="text"] {
+    font-size: 0.95rem; /* Adjust font size for mobile */
+  }
+
+  .input-with-buttons button, .chat-input button[type="submit"] {
+    font-size: 1.1rem; /* Ensure buttons are tappable */
+    padding: 8px;
+  }
+   .chat-input button[type="submit"] {
+    padding: 10px; /* Keep send button slightly larger */
+  }
+
+
+  .chat-window {
+    padding-bottom: 80px; /* Increased space for fixed chat-input bar */
+    padding-top: 10px; /* Add some top padding */
+  }
+
+  .user, .ai {
+    max-width: 85%; /* Allow bubbles to be a bit wider */
+    font-size: 0.9rem; /* Adjust font size in bubbles */
+  }
+
+  .settings-overlay.visible {
+     align-items: stretch; /* Full height for settings */
+     padding-top: 0;
+  }
+
+  .settings-container {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    border-radius: 0;
+    padding: 16px; /* Adjusted padding */
+  }
+
+  .settings-header h2 {
+    font-size: 1.2rem;
+  }
+  .settings-close {
+    font-size: 1.8rem; /* Larger close button */
+  }
+
+  .settings-content {
+    flex-direction: column;
+  }
+
+  .settings-sections {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px; /* Reduced gap */
+  }
+
+  .settings-sections li {
+    flex: 1 0 calc(50% - 4px); /* Adjust for gap */
+    text-align: center;
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    font-size: 0.9rem;
+    padding: 12px 8px; /* Adjust padding */
+  }
+
+  .settings-sections li:hover {
+    border-left: none;
+    border-bottom: 2px solid #3f51b5;
+  }
+
+  .welcome-section h1 {
+    font-size: 1.5rem;
+  }
+  .welcome-section p {
+    font-size: 0.85rem;
+  }
+
+  .profile-menu { /* Desktop profile menu should be hidden on mobile */
+    display: none !important;
+  }
+
+  #mobileProfileMenu.show { /* Ensure mobile profile menu is displayed when active */
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-profile-menu {
+     padding: 20px;
+  }
+  .mobile-profile-menu h2 {
+    font-size: 1.1rem;
+  }
+  .mobile-profile-menu button, .mobile-profile-menu a {
+    font-size: 0.95rem;
+    padding: 10px 0;
+  }
+
+}
+
+/* Very small mobile screens */
+@media (max-width: 360px) {
+  .topbar {
+    padding: 10px 12px;
+  }
+  .fein-ai-title {
+    font-size: 1rem;
+  }
+  .menu-toggle {
+    font-size: 1.1rem;
+  }
+  .topbar .profile-button img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .chat-input {
+    padding: 8px 10px;
+  }
+  .input-with-buttons input[type="text"] {
+    font-size: 0.9rem;
+  }
+  .input-with-buttons button, .chat-input button[type="submit"] {
+    font-size: 1rem;
+    padding: 7px;
+  }
+  .chat-input button[type="submit"] {
+    padding: 8px;
+  }
+
+  .user, .ai {
+    font-size: 0.85rem;
+  }
+
+  .settings-sections li {
+    font-size: 0.85rem;
+    padding: 10px 6px;
+  }
+
+  .welcome-section h1 {
+    font-size: 1.3rem;
+  }
+  .welcome-section p {
+    font-size: 0.8rem;
   }
 }
+
 
 /* Hide sidebar scrollbar for better look */
 .sidebar::-webkit-scrollbar {
@@ -432,24 +609,22 @@ body {
   background-color: #3a3a3a;
 }
 
-/* Profile dropdown menu */
+/* Profile dropdown menu - ensure it's managed by JS for visibility */
 .profile-menu {
   position: absolute;
-  top: 64px;
+  top: 64px; /* Should be adjusted if topbar height changes */
   right: 16px;
   background-color: #222;
   color: #eee;
   padding: 16px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0,0,0,0.6);
-  display: none;
+  /* display: none; */ /* Controlled by JS adding/removing .show */
   width: 260px;
   z-index: 999;
 }
 
-.profile-menu.show {
-  display: block;
-}
+/* .profile-menu.show is handled by JS */
 
 .profile-menu .email {
   font-size: 0.9rem;
@@ -474,7 +649,7 @@ body {
   color: var(--green);
 }
 
-/* Full-screen profile menu for mobile */
+/* Full-screen profile menu for mobile - ensure it's managed by JS for visibility */
 .mobile-profile-menu {
   position: fixed;
   top: 0;
@@ -483,11 +658,22 @@ body {
   color: #eee;
   width: 100%;
   height: 100%;
-  z-index: 1000;
-  display: none;
+  z-index: 3000; /* Ensure it's above other elements like sidebar overlay */
+  /* display: none; */ /* Controlled by JS adding/removing .show (or similar class) */
   padding: 24px;
   overflow-y: auto;
+  /* Added flex properties for consistency if needed by JS */
+  display: flex;
+  flex-direction: column;
+  opacity: 0; /* Start hidden, transition to visible */
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
+.mobile-profile-menu.show {
+    opacity: 1;
+    visibility: visible;
+}
+
 
 .mobile-profile-menu h2 {
   margin-top: 20px;
@@ -522,20 +708,25 @@ body {
   top: 0; left: 0;
   width: 100vw;
   height: 100vh;
-  display: none;
+  /* display: none; */ /* Controlled by JS */
   z-index: 1000;
   background: rgba(0,0,0,0.4);
   backdrop-filter: blur(4px);
   align-items: center;
   justify-content: center;
+  opacity: 0; /* Start hidden */
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .settings-overlay.visible {
-  display: flex;
+  /* display: flex; */ /* No longer needed, use opacity/visibility */
+  opacity: 1;
+  visibility: visible;
 }
 
 .settings-container {
-  background: rgba(0,0,0,0.4);
+  background: #1e1e1e; /* Darker, less transparent background */
   width: 90%;
   max-width: 700px;
   max-height: 90vh;
@@ -544,177 +735,171 @@ body {
   padding: 20px;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.5); /* Enhanced shadow */
 }
 
 .settings-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-bottom: 12px; /* Add some spacing */
+  border-bottom: 1px solid #333; /* Separator */
 }
 
 .settings-header h2 {
   margin: 0;
-  font-size: 24px;
+  font-size: 1.4rem; /* Adjusted size */
 }
 
 .settings-close {
   background: none;
   border: none;
-  font-size: 28px;
+  font-size: 1.8rem; /* Adjusted size */
   cursor: pointer;
   color: #999;
+  padding: 5px; /* Easier to tap */
+}
+.settings-close:hover {
+  color: #fff;
 }
 
 .settings-content {
   display: flex;
   flex-direction: row;
-  margin-top: 20px;
+  margin-top: 16px; /* Adjusted margin */
   gap: 20px;
+  flex-grow: 1; /* Allow content to fill space if settings container has fixed height */
+  overflow-y: hidden; /* Prevent double scrollbars if sections are scrollable */
 }
 
 .settings-sections {
   list-style: none;
   padding: 0;
   margin: 0;
-  min-width: 150px;
+  min-width: 180px; /* Slightly wider */
+  overflow-y: auto; /* Allow scrolling if many sections */
 }
 
 .settings-sections li {
-  padding: 10px;
+  padding: 12px 15px; /* Adjusted padding */
   cursor: pointer;
   border-left: 3px solid transparent;
   transition: all 0.2s ease;
+  font-size: 0.95rem; /* Slightly larger font */
+  border-radius: 4px; /* Subtle rounding */
+  margin-bottom: 4px; /* Spacing between items */
 }
 
-.settings-sections li:hover {
-  background: rgba(0,0,0,0.8);
-  border-left: 3px solid #3f51b5;
+.settings-sections li:hover, .settings-sections li.active { /* Added .active state */
+  background: #2a2a2a; /* Darker hover */
+  border-left: 3px solid var(--green); /* Use theme color */
+  color: var(--green);
 }
 
 .setting-details {
   flex: 1;
-  padding: 10px;
-  background: rgba(0,0,0,0.4);
+  padding: 15px; /* Adjusted padding */
+  background: #171717; /* Slightly different background for details */
   border-radius: 8px;
   overflow-y: auto;
 }
 
-/* Mobile full-screen */
-@media (max-width: 768px) {
-
-  .chat-input {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 8px 12px;
-    background-color: #181818;
-    z-index: 100;
-    border-top: 1px solid #333;
-  }
-
-  .chat-window {
-    padding-bottom: 72px; /* space for chat-input bar */
-  }
-  .settings-container {
-    width: 100%;
-    height: 100%;
-    max-height: none;
-    border-radius: 0;
-  }
-
-  .settings-content {
-    flex-direction: column;
-  }
-
-  .settings-sections {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .settings-sections li {
-    flex: 1 0 48%;
-    text-align: center;
-    border-left: none;
-    border-bottom: 2px solid transparent;
-  }
-
-  .settings-sections li:hover {
-    border-left: none;
-    border-bottom: 2px solid #3f51b5;
-  }
-}
 
 .voice-modal {
-  display: none;
+  /* display: none; */ /* Controlled by JS */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgb(0, 0, 0);
+  background: rgba(0, 0, 0, 0.8); /* Darker, semi-transparent background */
+  backdrop-filter: blur(5px); /* Stronger blur */
   z-index: 9999;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
+.voice-modal.show { /* Assuming JS adds .show to display */
+    opacity: 1;
+    visibility: visible;
+    display: flex; /* Ensure flex properties apply when shown */
+}
+
 
 #waveformCanvas {
-  width: 100%;
-  height: 100%;
+  width: 80%; /* Don't take full width */
+  max-width: 600px;
+  height: 50%; /* Adjust as needed */
+  max-height: 300px;
   display: block;
   background: transparent;
+  border-radius: 8px; /* Optional: round corners */
 }
 
 .stop-btn {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  background: none;
+  top: 25px;
+  right: 25px;
+  background: rgba(34,34,34,0.8); /* Slight background for visibility */
   border: none;
-  font-size: 2rem;
+  font-size: 1.8rem; /* Adjusted size */
   color: white;
   cursor: pointer;
+  border-radius: 50%; /* Make it circular */
+  width: 44px; /* Explicit size for touch */
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .stop-btn:hover {
-  color: #ff0000;
+  background-color: rgba(255,0,0,0.7);
 
 }
 
 .voice-controls {
   position: absolute;
-  bottom: 20px;
+  bottom: 30px; /* More space from bottom */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 20px;
+  gap: 25px; /* Increased gap */
   z-index: 1000;
 }
 
 .voice-controls button {
-  background-color: #222;
-  border: none;
-  padding: 15px;
+  background-color: #282828; /* Slightly lighter background */
+  border: 1px solid #444; /* Subtle border */
+  padding: 18px; /* Larger buttons */
   border-radius: 50%;
   color: white;
-  font-size: 1.4rem;
+  font-size: 1.5rem; /* Larger icons */
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.3s, box-shadow 0.3s;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
 .voice-controls button:hover {
-  background-color: #444;
+  background-color: #333;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
 }
 
 #micButton.off {
-  background-color: red;
+  background-color: #d32f2f; /* Material Design red for error/off state */
   color: white;
+  border-color: #c62828;
 }
+#micButton.off:hover {
+  background-color: #b71c1c;
+}
+
 
 /* Dropdown Styles */
 .dropdown {
@@ -723,32 +908,46 @@ body {
 }
 
 .dropdown-content {
-  display: none;
+  /* display: none; */ /* Controlled by JS */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px); /* Start slightly lower */
+  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
   position: absolute;
-  bottom: 60px;
+  bottom: calc(100% + 10px); /* Position above the button with some margin */
+  right: 50%; /* Center relative to button if needed, or left: 0 */
+  transform: translateX(50%); /* if right: 50% */
+  /* left: 0; */ /* if you want it aligned to the left of the button */
   background-color: #333;
-  min-width: 140px;
-  box-shadow: 0px 8px 16px rgba(0,0,0,0.3);
-  z-index: 999;
+  min-width: 160px; /* Wider dropdown */
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.4); /* Stronger shadow */
+  z-index: 1001; /* Above voice controls */
   border-radius: 6px;
   overflow: hidden;
 }
+.dropdown.show .dropdown-content { /* Assuming JS adds .show to .dropdown */
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    /* display: block; */ /* No longer needed */
+}
+
 
 .dropdown-content a {
   color: white;
-  padding: 10px 14px;
+  padding: 12px 16px; /* More padding */
   text-decoration: none;
   display: block;
   transition: background 0.2s;
+  font-size: 0.9rem;
 }
 
 .dropdown-content a:hover {
   background-color: #555;
+  color: var(--green); /* Highlight on hover */
 }
 
-.dropdown.show .dropdown-content {
-  display: block;
-}
+/* .dropdown.show .dropdown-content is handled by JS */
 
 
 .fein-ai-title {
@@ -757,9 +956,10 @@ body {
   color: #ffffff7b;
   letter-spacing: 2px;
   margin-right: auto;
-  margin-left: 48px;
+  margin-left: 48px; /* Default margin for desktop */
   display: flex;
   align-items: center;
+  transition: margin-left 0.3s ease; /* Smooth transition for margin changes */
 }
 
 
@@ -767,33 +967,30 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
+  transform: translate(-50%, -50%); /* Correct centering */
   width: 90%;
-  height: 100vh; /* full screen height */
+  max-width: 500px; /* Max width for larger screens */
+  /* height: auto; */ /* Already set below */
   display: flex;
   flex-direction: column;
-  justify-content: center;  /* vertical centering */
-  align-items: center;      /* horizontal centering */
+  justify-content: center;
+  align-items: center;
   text-align: center;
   padding: 20px;
-  box-sizing: border-box;
-  z-index: 1000; /* ensure it's on top */
+  box-sizing: border-box; /* Ensure padding is included in width/height */
+  z-index: 50; /* Below topbar/sidebar but above chat window initially */
   animation: fadeIn 1.5s ease-in-out;
+  /* border-radius: 12px; */ /* Already set below */
 }
 
-.welcome-section {
-
-  transform: translate(-50%, -50%);
-  width: 90%;
+.welcome-section { /* This seems to be a duplicate, merging styles */
   max-width: 500px;
   padding: 20px;
   border-radius: 12px;
-  z-index: 1000;
+  /* z-index: 1000; */ /* z-index was 1000, now 50 from above */
+  height: auto; /* ensure it's not full screen height by default */
 }
 
-/* Remove full-screen coverage */
-.welcome-section {
-  height: auto; /* instead of full-screen height */
-}
 
 .welcome-section h1 {
   font-size: 2rem;
@@ -802,7 +999,7 @@ body {
 }
 
 .welcome-section p {
-  font-size: 0.8rem;
+  font-size: 0.9rem; /* Slightly larger base for p */
   color: #b5ffb5;
   line-height: 1.5;
   max-width: 600px;
@@ -817,57 +1014,92 @@ body {
   padding: 10px 12px;
   border-radius: 8px;
   transition: background 0.2s ease;
+  cursor: pointer; /* Indicate it's clickable */
+}
+.chat-item:hover {
+  background-color: #2a2a2a; /* Hover effect for chat items */
 }
 
 .chat-item.active {
   background-color: rgba(76, 175, 80, 0.5);
-
 }
+.chat-item.active:hover { /* Keep active state prominent on hover */
+  background-color: rgba(76, 175, 80, 0.6);
+}
+
 
 .chat-title {
   background: none;
   border: none;
   color: white;
-  font: inherit;
+  font: inherit; /* Use body font by default */
+  font-size: 0.9rem; /* Specific font size */
   text-align: left;
   flex-grow: 1;
-  cursor: pointer;
+  cursor: pointer; /* Already on .chat-item, but can be explicit */
+  white-space: nowrap; /* Prevent title from wrapping */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Add ellipsis if title is too long */
+  padding-right: 5px; /* Space before menu icon */
 }
+
 
 .chat-menu-icon {
-  font-size: 18px;
-  color: #ccc;
+  font-size: 1rem; /* Adjusted size */
+  color: #aaa; /* Slightly dimmer */
   cursor: pointer;
-  padding-left: 6px;
+  padding: 4px; /* Make it easier to tap/click */
+  border-radius: 4px;
+  transition: color 0.2s, background-color 0.2s;
 }
 
-.chat-item:hover .chat-menu-icon {
+.chat-item:hover .chat-menu-icon, .chat-menu-icon:hover { /* Also highlight on direct hover */
   color: white;
+  background-color: #333; /* Add a subtle background on hover */
 }
 
 .chat-dropdown {
   position: absolute;
   right: 10px;
-  top: 40px;
+  top: calc(100% + 2px); /* Position below the item with a small gap */
   background: #1e1e1e;
   border: 1px solid #333;
   border-radius: 6px;
-  display: none;
+  /* display: none; */ /* Controlled by JS */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(5px);
+  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
   flex-direction: column;
-  z-index: 999;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  z-index: 100; /* Ensure it's above other chat items */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4); /* Stronger shadow */
+  min-width: 140px; /* Minimum width */
+}
+.chat-dropdown.show { /* Assuming JS adds .show */
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    display: flex; /* Ensure flex properties apply */
 }
 
 .chat-dropdown button {
   background: none;
   border: none;
   color: white;
-  padding: 8px 12px;
+  padding: 10px 14px; /* Adjusted padding */
   text-align: left;
-  width: 120px;
+  width: 100%; /* Take full width of dropdown */
   cursor: pointer;
+  font-size: 0.85rem; /* Adjusted font size */
+  transition: background-color 0.2s, color 0.2s;
 }
 
 .chat-dropdown button:hover {
   background-color: #2c2c2c;
+  color: var(--green); /* Highlight on hover */
+}
+
+.chat-dropdown button i { /* Style for icons in dropdown buttons */
+  margin-right: 8px;
+  font-size: 0.9rem;
 }
