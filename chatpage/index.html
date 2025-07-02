@@ -54,17 +54,17 @@
 
       <!-- Chat Window -->
       <div class="chat-window" id="chatWindow"></div>
-
-      <!-- Chat Input -->
-      <form class="chat-input" onsubmit="sendMessage(); return false;">
-        <div class="input-with-buttons">
-          <button type="button" title="Add media"><i class="ph ph-plus"></i></button>
-          <input type="text" id="userInput" placeholder="Type a message..." />
-          <button type="button" title="Suggestions or threads" onclick="startVoice()"><i class="ph ph-waveform"></i></button>
-        </div>
-        <button type="submit" title="Send message"><i class="ph ph-paper-plane-right"></i></button>
-      </form>
     </main>
+
+    <!-- Chat Input (Moved outside main for easier fixed positioning if needed, or can be styled as sticky within main) -->
+    <form class="chat-input" onsubmit="sendMessage(); return false;">
+      <div class="input-with-buttons">
+        <button type="button" title="Add media"><i class="ph ph-plus"></i></button>
+        <input type="text" id="userInput" placeholder="Type a message..." />
+        <button type="button" title="Suggestions or threads" onclick="startVoice()"><i class="ph ph-waveform"></i></button>
+      </div>
+      <button type="submit" title="Send message"><i class="ph ph-paper-plane-right"></i></button>
+    </form>
   </div>
 
   <!-- Profile Menu (Desktop) -->

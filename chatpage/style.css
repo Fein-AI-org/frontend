@@ -95,6 +95,9 @@ body {
   display: flex;
   flex-direction: column;
   background-color: #1a1a1a;
+  overflow: hidden; /* Prevent scrollbars from main if chat-window scrolls */
+  /* padding-bottom will be dynamically adjusted by chat-input height later if needed,
+     or handled by chat-window's own padding */
 }
 
 /* === TOPBAR === */
@@ -138,8 +141,12 @@ body {
   overflow-y: auto;
   padding: 20px;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse; /* Messages stack from bottom */
   gap: 10px;
+  /* Add padding at the top, effectively becoming bottom when reversed,
+     to ensure space for the input bar. This will be more critical for mobile.
+     Desktop might not need it if input is sticky within .main flow.
+     We will adjust this more specifically in media queries. */
 }
 
 /* === CHAT BUBBLES === */
@@ -184,12 +191,26 @@ body {
 
 /* === CHAT INPUT === */
 .chat-input {
-  padding: 12px;
-  border-top: 1px solid #333;
-  display: flex;
+  display: flex; /* Keep flex properties for internal alignment */
   gap: 8px;
-  background-color: #181818;
   align-items: center;
+  padding: 12px;
+  background-color: #181818; /* Ensure it has a background */
+  border-top: 1px solid #333;
+
+  /* For desktop view, make it sticky to the bottom of the .container or .main
+     Since it's now a direct child of .container, we'll use position: sticky here,
+     assuming .container is the scroll parent or has enough height.
+     If .main is the intended scroll container for chat-window, then chat-input
+     should be sticky relative to .main. Given the HTML change, it's now outside .main.
+     Let's assume .container is the overall viewport boundary.
+  */
+  position: sticky; /* Stick to the bottom of its containing block (.container) */
+  bottom: 0;
+  left: 0; /* if sticky, left is not strictly needed unless width issues */
+  width: 100%; /* Ensure it spans the full width */
+  z-index: 100; /* Keep it above other content in .main */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 
 
@@ -366,6 +387,8 @@ body {
     margin-left: 0;
     width: 100vw;
     padding-top: 70px; /* Increased to accommodate larger topbar elements if needed */
+    /* The chat-input is now fixed, so .main doesn't need padding-bottom for it.
+       Instead, .chat-window will need padding-bottom. */
   }
 
   .topbar {
@@ -407,14 +430,15 @@ body {
   }
 
   .chat-input {
-    position: fixed;
+    position: fixed; /* Fixed position for mobile */
     bottom: 0;
     left: 0;
     width: 100%;
     padding: 10px 12px; /* Adjusted padding */
-    background-color: #181818;
-    z-index: 100;
+    background-color: #181818; /* Ensure background for visibility */
+    z-index: 100; /* Keep above chat messages */
     border-top: 1px solid #333;
+    box-sizing: border-box; /* Ensure padding doesn't add to width */
   }
 
   .input-with-buttons input[type="text"] {
@@ -431,8 +455,21 @@ body {
 
 
   .chat-window {
-    padding-bottom: 80px; /* Increased space for fixed chat-input bar */
-    padding-top: 10px; /* Add some top padding */
+    /* Assuming chat-input height is around 50-60px on mobile after padding.
+       Let's use a value like 70px for padding-bottom to be safe.
+       The existing 80px might be fine, but let's be explicit.
+       Since it's column-reverse, this padding will be at the "end" which is visually the top,
+       but effectively creates space at the bottom when messages scroll up.
+       More accurately, for column-reverse, padding-top will create space *before*
+       the first (visually bottom-most) message, pushing content upwards from the input bar.
+       And padding-bottom will create space *after* the last (visually top-most) message.
+       So we need padding-bottom to avoid content being hidden *under* the fixed input bar.
+    */
+    padding-bottom: 70px; /* Space for the fixed chat-input bar */
+    padding-top: 10px; /* Existing top padding */
+    /* Ensure it scrolls within the .main container, respecting topbar and input bar */
+    height: calc(100vh - 70px - 70px); /* Approx: vh - topbar height - chatinput height */
+    /* This height calculation might need adjustment based on actual topbar height */
   }
 
   .user, .ai {
