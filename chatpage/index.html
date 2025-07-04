@@ -97,27 +97,124 @@
   <!-- Settings Panel -->
   <div id="settingsOverlay" class="settings-overlay">
     <div class="settings-container">
-      <div class="settings-header">
+      <!-- This header is more for desktop. Mobile will have headers per page. -->
+      <div class="settings-header-desktop">
         <h2>Settings</h2>
         <button class="settings-close" onclick="closeSettings()">&times;</button>
       </div>
-      <div class="settings-content">
-        <ul class="settings-sections">
-          <li onclick="openSettingSection('general')">General</li>
-          <li onclick="openSettingSection('notifications')">Notifications</li>
-          <li onclick="openSettingSection('personalization')">Personalization</li>
-          <li onclick="openSettingSection('speech')">Speech</li>
-          <li onclick="openSettingSection('data')">Data controls</li>
-          <li onclick="openSettingSection('builder')">Builder profile</li>
-          <li onclick="openSettingSection('apps')">Connected apps</li>
-          <li onclick="openSettingSection('security')">Secure sign in</li>
-        </ul>
-        <div id="settingDetails" class="setting-details">
-          <p>Select a setting to view details.</p>
-        </div>
-      </div>
-    </div>
-  </div>
+
+      <div class="settings-body">
+        <!-- Navigation - visible on desktop left, full screen on mobile initial view -->
+        <nav id="settingsNav" class="settings-nav">
+          <!-- Mobile-only header for the main settings list -->
+          <div class="settings-header-mobile">
+            <span class="settings-title-mobile">Settings</span>
+            <button class="settings-close-mobile" onclick="closeSettings()">&times;</button>
+          </div>
+          <ul>
+            <li data-section="profile">Profile Settings</li>
+            <li data-section="notifications">Notifications</li>
+            <li data-section="privacy">Privacy</li>
+            <li data-section="account">Account Preferences</li>
+            <li data-section="general">General</li>
+            <!-- Add more main sections as needed -->
+          </ul>
+        </nav>
+
+        <!-- Detail Panel - visible on desktop right, or as separate pages on mobile -->
+        <div id="settingsDetailPanel" class="settings-detail-panel">
+          <!-- Content for each section will be injected here by JS or predefined -->
+
+          <!-- Example: Profile Settings Page (for mobile and desktop content) -->
+          <div id="settings-page-profile" class="settings-page" data-page-title="Profile Settings">
+            <div class="settings-header-mobile">
+              <button class="settings-back-mobile">&lt; Back</button>
+              <span class="settings-title-mobile">Profile Settings</span>
+            </div>
+            <div class="settings-page-content">
+              <h3>Profile Settings</h3>
+              <label for="setting-name">Name:</label>
+              <input type="text" id="setting-name" name="setting-name">
+              <label for="setting-email">Email:</label>
+              <input type="email" id="setting-email" name="setting-email" disabled>
+              <button id="save-profile-settings">Save Profile</button>
+            </div>
+          </div>
+
+          <!-- Example: Notifications Settings Page -->
+          <div id="settings-page-notifications" class="settings-page" data-page-title="Notifications">
+            <div class="settings-header-mobile">
+              <button class="settings-back-mobile">&lt; Back</button>
+              <span class="settings-title-mobile">Notifications</span>
+            </div>
+            <div class="settings-page-content">
+              <h3>Notifications</h3>
+              <label>
+                <input type="checkbox" id="setting-notif-email"> Email Notifications
+              </label>
+              <label>
+                <input type="checkbox" id="setting-notif-push"> Push Notifications
+              </label>
+              <button id="save-notification-settings">Save Notifications</button>
+            </div>
+          </div>
+
+          <!-- Example: Privacy Settings Page -->
+          <div id="settings-page-privacy" class="settings-page" data-page-title="Privacy">
+            <div class="settings-header-mobile">
+              <button class="settings-back-mobile">&lt; Back</button>
+              <span class="settings-title-mobile">Privacy</span>
+            </div>
+            <div class="settings-page-content">
+              <h3>Privacy Settings</h3>
+              <label>
+                <input type="checkbox" id="setting-privacy-discoverable"> Allow others to find me by email
+              </label>
+              <button id="save-privacy-settings">Save Privacy</button>
+            </div>
+          </div>
+
+          <!-- Example: Account Preferences Page -->
+          <div id="settings-page-account" class="settings-page" data-page-title="Account Preferences">
+            <div class="settings-header-mobile">
+              <button class="settings-back-mobile">&lt; Back</button>
+              <span class="settings-title-mobile">Account Preferences</span>
+            </div>
+            <div class="settings-page-content">
+              <h3>Account Preferences</h3>
+              <label for="setting-language">Language:</label>
+              <select id="setting-language" name="setting-language">
+                <option value="en">English</option>
+                <option value="es">Español</option>
+              </select>
+              <button id="save-account-settings">Save Preferences</button>
+            </div>
+          </div>
+
+          <!-- Example: General Settings Page (renamed from old general) -->
+          <div id="settings-page-general" class="settings-page" data-page-title="General Settings">
+            <div class="settings-header-mobile">
+              <button class="settings-back-mobile">&lt; Back</button>
+              <span class="settings-title-mobile">General Settings</span>
+            </div>
+            <div class="settings-page-content">
+              <h3>General Settings</h3>
+              <label>
+                <input type="checkbox" id="setting-general-darktheme"> Use Dark Theme
+              </label>
+              <button id="save-general-settings">Save General</button>
+            </div>
+          </div>
+
+          <!-- Fallback for desktop view if no section is selected -->
+          <div id="settings-detail-placeholder" class="settings-page active">
+             <p>Select a category from the left to view settings.</p>
+          </div>
+
+        </div> <!-- settingsDetailPanel end -->
+      </div> <!-- settings-body end -->
+    </div> <!-- settings-container end -->
+  </div> <!-- settingsOverlay end -->
 
   <!-- Waveform Overlay -->
   <div id="voiceModal" class="voice-modal">

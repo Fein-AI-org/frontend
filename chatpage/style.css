@@ -491,9 +491,11 @@ body {
     font-size: 0.85rem;
   }
 
-  .profile-menu { /* Desktop profile menu should be hidden on mobile */
+  /*
+  .profile-menu { // Desktop profile menu should be hidden on mobile - now handled by JS and opacity/visibility
     display: none !important;
   }
+  */
 
   #mobileProfileMenu.show { /* Ensure mobile profile menu is displayed when active */
     display: flex;
@@ -619,12 +621,19 @@ body {
   padding: 16px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0,0,0,0.6);
-  /* display: none; */ /* Controlled by JS adding/removing .show */
   width: 260px;
   z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px); /* Start slightly lower for slide-in effect */
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
 }
 
-/* .profile-menu.show is handled by JS */
+.profile-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
 
 .profile-menu .email {
   font-size: 0.9rem;
@@ -662,16 +671,16 @@ body {
   /* display: none; */ /* Controlled by JS adding/removing .show (or similar class) */
   padding: 24px;
   overflow-y: auto;
-  /* Added flex properties for consistency if needed by JS */
-  display: flex;
-  flex-direction: column;
+  flex-direction: column; /* display:flex will be added by .show */
   opacity: 0; /* Start hidden, transition to visible */
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
+  display: none; /* Hidden by default, .show will make it flex */
 }
 .mobile-profile-menu.show {
     opacity: 1;
     visibility: visible;
+    display: flex; /* Use flex when shown */
 }
 
 
@@ -1102,4 +1111,295 @@ body {
 .chat-dropdown button i { /* Style for icons in dropdown buttons */
   margin-right: 8px;
   font-size: 0.9rem;
+}
+
+/* === NEW SETTINGS PANEL STYLES === */
+.settings-overlay.visible {
+  /* Ensure it's flex if not already, for centering .settings-container */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings-container {
+  /* max-height: 90vh; /* Already exists, good */
+  /* overflow-y: auto; /* Already exists, good */
+  display: flex; /* Added for header/body structure */
+  flex-direction: column; /* Stack header and body */
+}
+
+.settings-header-desktop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #333;
+  margin-bottom: 16px; /* Space between header and body */
+}
+.settings-header-desktop h2 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.settings-body {
+  display: flex;
+  flex-grow: 1; /* Allow body to fill container height */
+  overflow: hidden; /* Prevent internal scrollbars from affecting layout */
+}
+
+.settings-nav {
+  background-color: #171717; /* Slightly different from main content */
+  padding: 10px;
+  border-right: 1px solid #333;
+  min-width: 220px; /* Desktop nav width */
+  overflow-y: auto;
+}
+.settings-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.settings-nav li {
+  padding: 12px 15px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+.settings-nav li:hover,
+.settings-nav li.active {
+  background: #2a2a2a;
+  border-left-color: var(--green);
+  color: var(--green);
+}
+
+.settings-detail-panel {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: #1a1a1a; /* Match main chat area bg */
+}
+
+.settings-page {
+  display: none; /* Hidden by default */
+}
+.settings-page.active {
+  display: block; /* Shown when active */
+  animation: fadeInSettingPage 0.3s ease-in-out;
+}
+
+@keyframes fadeInSettingPage {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+.settings-page-content h3 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #eee;
+  border-bottom: 1px solid #2a2a2a;
+  padding-bottom: 8px;
+}
+.settings-page-content label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+.settings-page-content input[type="text"],
+.settings-page-content input[type="email"],
+.settings-page-content select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: #2a2a2a;
+  border: 1px solid #333;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+.settings-page-content input[type="checkbox"] {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+.settings-page-content button {
+  background-color: var(--green);
+  color: #000;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.2s;
+  margin-top: 10px;
+}
+.settings-page-content button:hover {
+  background-color: #3aa03f; /* Slightly darker green */
+}
+
+
+/* Mobile-specific headers (initially hidden, shown via media query) */
+.settings-header-mobile {
+  display: none; /* Hidden by default */
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background-color: #1e1e1e; /* iOS-like header bar color */
+  border-bottom: 1px solid #333;
+  position: sticky; /* Keep header visible when scrolling page content on mobile */
+  top: 0;
+  z-index: 10; /* Above page content */
+}
+.settings-back-mobile {
+  background: none;
+  border: none;
+  color: var(--green); /* iOS-like blue, but using our green */
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 5px 10px 5px 0; /* More tap area on left */
+}
+.settings-title-mobile {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #f1f1f1;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.settings-close-mobile {
+  background: none;
+  border: none;
+  color: var(--green);
+  font-size: 1.5rem; /* Larger for tap */
+  cursor: pointer;
+  padding: 5px;
+}
+
+/* --- Mobile View for Settings (iOS Style) --- */
+@media (max-width: 768px) {
+  .settings-container {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 0;
+    padding: 0; /* Full screen, no padding on container */
+  }
+  .settings-header-desktop {
+    display: none; /* Hide desktop header */
+  }
+  .settings-body {
+    flex-direction: column; /* Stack nav and detail panel (conceptually) */
+    position: relative; /* For absolute positioning of pages */
+    overflow-x: hidden; /* Prevent horizontal scroll during transitions */
+  }
+
+  .settings-nav {
+    width: 100%; /* Full width for main list */
+    min-width: 0;
+    border-right: none;
+    padding: 0; /* Remove padding, handled by list items/header */
+    /* This is the first "page" on mobile */
+    display: block; /* Default state, JS will hide it if a sub-page is active */
+    height: 100%;
+  }
+  .settings-nav .settings-header-mobile { /* Show header for main settings list */
+    display: flex;
+  }
+  .settings-nav ul {
+    height: calc(100% - 50px); /* Adjust based on header height */
+    overflow-y: auto;
+  }
+  .settings-nav li {
+    padding: 15px 20px; /* More padding for touch */
+    font-size: 1rem;
+    border-bottom: 1px solid #2a2a2a; /* iOS-like separators */
+    border-left: none;
+    border-radius: 0;
+    position: relative; /* For disclosure indicator */
+    color: #f1f1f1;
+  }
+  .settings-nav li:hover { /* Simpler hover for mobile */
+    background-color: #252525;
+    border-left: none;
+    color: #f1f1f1;
+  }
+  .settings-nav li.active { /* No special active state for main list on mobile, selection leads to new page */
+    background-color: #171717;
+    border-left: none;
+    color: #f1f1f1;
+  }
+  .settings-nav li::after { /* Disclosure indicator */
+    content: '›';
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #555;
+    font-size: 1.5rem;
+  }
+
+
+  .settings-detail-panel {
+    padding: 0; /* Full width for pages */
+    position: absolute; /* Take up full space for page transitions */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(100%); /* Start off-screen to the right */
+    transition: transform 0.3s ease-in-out;
+    background-color: #0f0f0f; /* Darker background for pages, iOS like */
+    display: none; /* Initially hide detail panel container */
+    overflow-y: auto; /* Enable scrolling within the detail panel if content overflows */
+  }
+  .settings-detail-panel.active-page-container { /* JS will add this to show the panel */
+      display: block;
+      transform: translateX(0);
+  }
+   .settings-detail-panel.nav-active { /* When nav is active, detail panel is off-screen */
+      transform: translateX(100%);
+  }
+
+
+  .settings-page {
+    /* display: block; /* All pages are 'block' but only one is visible due to parent's overflow hidden and JS */
+    /* animation: none; /* Disable fade in for mobile, use slide */
+    /* The .active class on .settings-page is still used by JS to know which one to show, but actual visibility is controlled by parent */
+    height: 100%; /* Full height for the page content area */
+    background-color: #0f0f0f; /* Ensure pages have a background */
+    /* overflow-y: auto; /* Pages themselves can scroll if content is too long */
+  }
+   .settings-page.active { /* This means it's the one JS wants to show */
+        display: block;
+   }
+
+
+  .settings-page .settings-header-mobile { /* Show headers for sub-pages */
+    display: flex;
+  }
+  .settings-page-content {
+    padding: 16px;
+    height: calc(100% - 50px); /* Adjust based on header height */
+    overflow-y: auto;
+  }
+
+  /* Slide transitions for mobile pages */
+  .settings-nav.page-slide-out { /* Current page (nav list) slides left */
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+  .settings-nav.page-slide-in { /* Target page (nav list) slides in from right */
+    transform: translateX(0);
+    transition: transform 0.3s ease-in-out;
+  }
+  /* Detail panel itself will be made visible by JS, then individual page.active */
+  /* Individual pages don't slide; the detail panel container slides */
+
+  #settings-detail-placeholder {
+      display: none !important; /* Never show placeholder on mobile */
+  }
 }
