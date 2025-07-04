@@ -1,4 +1,4 @@
-* {
+  * {
       box-sizing: border-box;
       font-family: 'Segoe UI', sans-serif;
     }
@@ -7,12 +7,12 @@
       background-color: #111;
       color: #eaffc9;
       margin: 0;
-      /* padding: 0; */ /* Removed, will set on container or specific elements */
+      padding: 0;
       display: flex;
       justify-content: center;
-      align-items: flex-start; /* Align to top for scrollable content */
+      align-items: flex-start;
       min-height: 100vh;
-      padding: 20px; /* Add some base padding to body for smaller screens */
+      padding: 40px 20px;
     }
 
     .container {
@@ -25,18 +25,16 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1rem; /* Added margin */
     }
 
     .header button {
       background-color: #d4ef89;
       border: none;
-      padding: 0.6rem 1.2rem; /* Use rem */
+      padding: 10px 20px;
       border-radius: 10px;
       font-weight: bold;
       cursor: pointer;
       transition: background-color 0.2s ease, transform 0.2s ease;
-      font-size: 0.9rem; /* Base font size */
     }
 
     .header button:hover {
@@ -45,45 +43,39 @@
     }
 
     .title {
-      font-size: clamp(1.2rem, 5vw, 1.6rem); /* Responsive title */
-      margin: 1rem 0 0.5rem; /* Use rem */
+      font-size: 1.6rem;
+      margin: 20px 0 10px;
     }
 
     .step-indicator {
       text-align: right;
-      font-size: clamp(0.8rem, 2.5vw, 0.9rem); /* Responsive */
-      margin-bottom: 0.5rem; /* Use rem */
+      font-size: 0.9rem;
+      margin-bottom: 10px;
       color: #bfffb0;
     }
 
     .progress-bar {
       background-color: #333;
       border-radius: 10px;
-      height: 8px; /* Slightly thicker */
-      margin-bottom: 1.5rem; /* Use rem */
+      height: 6px;
+      margin-bottom: 25px;
       overflow: hidden;
     }
 
     .progress-fill {
       background-color: #b5ff60;
       height: 100%;
-      width: 0%; /* JS will control this */
+      width: 0%;
       transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s ease;
     }
 
     .form-step {
         transition: opacity 0.4s ease-out, transform 0.4s ease-out;
     }
-    .form-step.hidden { /* Ensure hidden is effective */
-        display: none !important;
-        opacity: 0;
-        pointer-events: none;
-    }
-
 
     .form-box {
       background-color: #1a1a1a;
-      padding: clamp(1rem, 5vw, 1.8rem); /* Responsive padding */
+      padding: 30px;
       border-radius: 15px;
       border: 1px solid #333;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
@@ -95,36 +87,33 @@
     }
     
     .form-box h3 {
-      margin-bottom: 1.2rem; /* Use rem */
+      margin-bottom: 20px;
       color: #d8ff94;
       display: flex;
       align-items: center;
-      gap: 0.5rem; /* Use rem */
-      font-size: clamp(1rem, 4vw, 1.2rem); /* Responsive heading */
+      gap: 10px;
     }
 
     .form-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive columns */
-      gap: 1.2rem; /* Use rem */
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
     }
 
     label {
       display: block;
       font-weight: bold;
-      margin-bottom: 0.3rem; /* Use rem */
-      font-size: clamp(0.85rem, 2.5vw, 0.95rem); /* Responsive label */
+      margin-bottom: 5px;
     }
 
     input, select {
       width: 100%;
-      padding: 0.7rem; /* Use rem */
+      padding: 10px;
       border-radius: 8px;
       border: 1px solid #444;
       background-color: #111;
       color: #f3ffe3;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
-      font-size: clamp(0.9rem, 2.5vw, 1rem); /* Responsive input text */
     }
     
     input::-webkit-outer-spin-button,
@@ -143,35 +132,23 @@
     }
 
     input.invalid {
-      border-color: #ff7b7b !important; /* Ensure invalid state is visible */
-      box-shadow: 0 0 0 3px rgba(255, 123, 123, 0.2) !important;
+      border-color: #ff7b7b;
     }
     
     .actions {
       display: flex;
-      /* justify-content: space-between; */ /* Will adjust with media queries */
-      justify-content: flex-end; /* Align to right by default */
-      flex-wrap: wrap; /* Allow buttons to wrap */
-      gap: 0.8rem; /* Spacing between buttons */
-      margin-top: 1.8rem; /* Use rem */
+      justify-content: space-between;
+      margin-top: 30px;
     }
-    .actions button#prevBtn { /* Specific style for previous button */
-        margin-right: auto; /* Pushes it to the left */
-    }
-
 
     .actions button {
       background-color: #d4ef89;
-      color: #111; /* Darker text for better contrast */
       border: none;
-      padding: 0.7rem 1.5rem; /* Use rem */
+      padding: 12px 30px;
       font-weight: bold;
       border-radius: 10px;
       cursor: pointer;
       transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-      font-size: clamp(0.85rem, 2.8vw, 0.95rem); /* Responsive button text */
-      min-width: 100px; /* Minimum width for readability */
-      text-align: center;
     }
     
     .actions button:hover {
@@ -181,21 +158,21 @@
 
     .actions button:disabled {
         background-color: #555;
-        color: #999;
         cursor: not-allowed;
         transform: none;
         box-shadow: none;
     }
 
-    /* .hidden is already defined */
+    .hidden {
+      display: none;
+    }
     
     #summaryContent {
         display: grid;
         grid-template-columns: max-content 1fr;
-        gap: 0.8rem 1.2rem; /* Use rem */
-        margin-top: 1.5rem; /* Use rem */
+        gap: 12px 20px;
+        margin-top: 25px;
         color: #f3ffe3;
-        font-size: clamp(0.85rem, 2.5vw, 0.95rem); /* Responsive summary text */
     }
     #summaryContent div:nth-child(odd) {
         font-weight: bold;
@@ -207,33 +184,31 @@
       background-color: #111;
       border: 1px solid #444;
       border-radius: 8px;
-      padding: 0.7rem; /* Use rem */
+      padding: 10px;
       display: flex;
       align-items: center;
       transition: border-color .2s ease, box-shadow .2s ease;
       cursor: pointer;
       width: 100%;
-      min-height: 50px; /* Ensure consistent height with inputs */
-      /* height: 100%; */ /* Removed, min-height is better */
+      height: 100%;
     }
     .toggle-container:focus-within, .toggle-container:hover {
       border-color: #b5ff60;
       box-shadow: 0 0 0 3px rgba(181, 255, 96, 0.2);
     }
     .toggle-label-text {
-      margin-left: 0.8rem; /* Use rem */
+      margin-left: 12px;
       color: #f3ffe3;
       user-select: none; 
-      font-size: clamp(0.85rem, 2.5vw, 0.95rem); /* Responsive */
     }
     .switch {
       position: relative;
       display: inline-block;
-      width: 44px; /* Keep fixed for consistent look */
+      width: 44px;
       height: 24px;
       flex-shrink: 0; 
     }
-    .switch input { /* Input is hidden, no need to style size */
+    .switch input {
       opacity: 0;
       width: 0;
       height: 0;
@@ -267,113 +242,106 @@
       transform: translateX(20px);
     }
     
-    .input-box { /* Used for select wrappers */
+    .input-box {
       background-color: #111;
       border: 1px solid #444;
       border-radius: 8px;
-      padding: 0.4rem 0.7rem; /* Adjust padding to better align label and select */
+      padding: 10px;
       transition: border-color .2s ease, box-shadow .2s ease;
-      /* height: 100%; */ /* Removed, let content dictate height or use min-height */
-      min-height: 50px; /* Match toggle container */
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      height: 100%;
     }
     .input-box:focus-within, .input-box:hover {
         border-color: #b5ff60;
         box-shadow: 0 0 0 3px rgba(181, 255, 96, 0.2);
     }
     .input-box label {
-      font-weight: normal; /* Lighter weight for sub-label */
-      color: #bbb; /* Dimmer color for sub-label */
-      font-size: clamp(0.7rem, 2vw, 0.8rem); /* Smaller font for sub-label */
-      margin-bottom: 0.1rem; /* Less space for sub-label */
+      font-weight: normal;
+      color: #f3ffe3;
+      font-size: 0.9em;
     }
     .input-box select {
-        margin-top: 0; /* Remove top margin if label is above */
-        background-color: transparent; /* Make select transparent to show input-box background */
-        border: none; /* Remove select's own border */
-        padding-left: 0; /* Remove default padding if any */
-        padding-right: 0;
-    }
-    .input-box select:focus { /* Remove box shadow from select itself when in input-box */
-        box-shadow: none;
+        margin-top: 5px;
     }
 
-/* === RESPONSIVE STYLES === */
-
-@media (max-width: 768px) {
-    body {
-        padding: 15px; /* Reduce body padding */
-    }
-    .header button {
-        padding: 0.5rem 1rem;
-        font-size: 0.85rem;
-    }
-    .form-box {
-        padding: 1rem;
-    }
-    .form-grid {
-      grid-template-columns: 1fr; /* Stack to single column */
-      gap: 1rem;
-    }
-    .actions {
-        margin-top: 1.5rem;
-        gap: 0.6rem;
-    }
-    .actions button {
-        padding: 0.6rem 1.2rem;
-        font-size: clamp(0.8rem, 2.5vw, 0.9rem);
-    }
-}
-
-@media (max-width: 480px) {
-    body {
-        padding: 10px; /* Further reduce body padding */
-    }
-    .title {
-        font-size: clamp(1rem, 4vw, 1.2rem);
-    }
-    .header {
-        flex-direction: column; /* Stack header items */
-        align-items: stretch; /* Stretch items to full width */
-        gap: 0.5rem;
-    }
-    .header button {
-        width: 100%; /* Make header buttons full width */
-        text-align: center;
-    }
-    .step-indicator {
-        text-align: center; /* Center step indicator */
-        margin-top: 0.5rem;
-    }
-    .form-box h3 {
-        font-size: clamp(0.9rem, 3.5vw, 1.1rem);
-    }
-    label, .toggle-label-text {
-        font-size: clamp(0.8rem, 2.2vw, 0.9rem);
-    }
-    input, select, .toggle-container {
-        padding: 0.6rem;
-        font-size: clamp(0.85rem, 2.2vw, 0.95rem);
-        min-height: 44px; /* Ensure touch target size */
-    }
-    .input-box {
-        padding: 0.3rem 0.6rem;
-        min-height: 44px;
-    }
-    .input-box label {
-        font-size: clamp(0.65rem, 1.8vw, 0.75rem);
-    }
-
-    .actions {
-        flex-direction: column; /* Stack action buttons */
-        align-items: stretch; /* Stretch buttons to full width */
-    }
-    .actions button {
+    /* Responsive styles for mobile */
+    @media (max-width: 600px) {
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      .container {
+        max-width: 100vw;
+        padding: 0 2vw;
+      }
+      .form-box {
+        padding: 10px 4px;
+        border-radius: 8px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      }
+      .form-box h3 {
+        font-size: 1.05rem;
+        gap: 4px;
+        margin-bottom: 14px;
+      }
+      .form-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .actions {
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 18px;
+      }
+      .actions button {
         width: 100%;
+        padding: 13px 0;
+        font-size: 1.08rem;
+        margin: 0;
+      }
+      .progress-bar {
+        height: 4px;
+        margin-bottom: 12px;
+      }
+      .title {
+        font-size: 1.08rem;
+        margin: 12px 0 6px;
+      }
+      .step-indicator {
+        font-size: 0.97rem;
+        margin-bottom: 4px;
+      }
+      label, .toggle-label-text {
+        font-size: 1rem;
+      }
+      input, select {
+        font-size: 1rem;
+        padding: 11px 8px;
+        border-radius: 8px;
+      }
+      .toggle-container {
+        padding: 7px 2px;
+        min-height: 44px;
+      }
+      .switch {
+        width: 36px;
+        height: 18px;
+      }
+      .slider:before {
+        height: 13px;
+        width: 13px;
+        left: 2px;
+        bottom: 2px;
+      }
+      .header {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+      }
+      .header button {
+        width: auto;
+        min-width: 44px;
+        font-size: 1rem;
+        padding: 8px 18px;
+      }
     }
-    .actions button#prevBtn {
-        margin-right: 0; /* Reset margin for stacked layout */
-    }
-}
+
