@@ -160,7 +160,7 @@
                 } else {
                     redirectMessage.textContent = 'Redirecting...';
                     clearInterval(intervalId);
-                    window.location.href = 'report.html';
+                    window.location.href = '../chatpage/index.html';
                 }
             };
             countdown();
@@ -249,7 +249,7 @@
             } else {
                 redirectMessage.textContent = 'Redirecting...';
                 clearInterval(intervalId);
-                window.location.href = 'report.html';
+                window.location.href = '../chatpage/index.html';
             }
         };
         countdown();
