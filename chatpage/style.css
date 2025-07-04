@@ -491,9 +491,11 @@ body {
     font-size: 0.85rem;
   }
 
-  .profile-menu { /* Desktop profile menu should be hidden on mobile */
+  /*
+  .profile-menu { // Desktop profile menu should be hidden on mobile - now handled by JS and opacity/visibility
     display: none !important;
   }
+  */
 
   #mobileProfileMenu.show { /* Ensure mobile profile menu is displayed when active */
     display: flex;
@@ -619,12 +621,19 @@ body {
   padding: 16px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0,0,0,0.6);
-  /* display: none; */ /* Controlled by JS adding/removing .show */
   width: 260px;
   z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px); /* Start slightly lower for slide-in effect */
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
 }
 
-/* .profile-menu.show is handled by JS */
+.profile-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
 
 .profile-menu .email {
   font-size: 0.9rem;
@@ -662,16 +671,16 @@ body {
   /* display: none; */ /* Controlled by JS adding/removing .show (or similar class) */
   padding: 24px;
   overflow-y: auto;
-  /* Added flex properties for consistency if needed by JS */
-  display: flex;
-  flex-direction: column;
+  flex-direction: column; /* display:flex will be added by .show */
   opacity: 0; /* Start hidden, transition to visible */
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
+  display: none; /* Hidden by default, .show will make it flex */
 }
 .mobile-profile-menu.show {
     opacity: 1;
     visibility: visible;
+    display: flex; /* Use flex when shown */
 }
 
 
