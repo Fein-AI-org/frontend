@@ -219,12 +219,15 @@ function handleResize() {
     }
 
   window.openSettings = function () {
-    const overlay = document.getElementById('settingsOverlay');
-    overlay.classList.add('visible');
+    if (!settingsOverlay) return;
+    populateFormElements();
+    settingsOverlay.classList.add('visible');  // <-- This is correct
+    handleResize();
   };
 
   window.closeSettings = function () {
-    document.getElementById('settingsOverlay').classList.remove('visible');
+    if (!settingsOverlay) return;
+    settingsOverlay.classList.remove('visible');  // <-- This hides it again
   };
 
   window.openSettingSection = function (section, clickedElement) {

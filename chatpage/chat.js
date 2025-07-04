@@ -3,9 +3,20 @@ let currentChatIndex = 0;
 
 export function initChat() {
   loadInitialChats();
+
+  // close any open dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    const isDropdownClick = e.target.closest('.chat-dropdown') 
+                       || e.target.classList.contains('chat-menu-icon');
+    if (!isDropdownClick) {
+      document.querySelectorAll('.chat-dropdown').forEach(d => 
+        d.classList.remove('show')
+      );
+    }
+  });
 }
 
-// Load poorane ajeeb ajeeb initial conversations and populate UIIIII
+// Load initial chats
 function loadInitialChats() {
   fetch("https://api.fein-ai.com/v1/conversations/", {
     method: "GET",
@@ -15,8 +26,7 @@ function loadInitialChats() {
     .then(data => {
       if (data.status === "ok" && Array.isArray(data.conversation_ids)) {
         if (data.conversation_ids.length === 0) {
-          // If no chats yet, auto-create one
-          startNewChat(true);
+          window.startNewChat(true);
           return;
         }
 
@@ -31,9 +41,7 @@ function loadInitialChats() {
         fetchChatHistory(chats[currentChatIndex].id);
       }
     })
-    .catch(err => {
-      console.error("Failed to fetch conversations:", err);
-    });
+    .catch(err => console.error("Failed to fetch conversations:", err));
 }
 
 // Start new chat
@@ -60,12 +68,10 @@ window.startNewChat = function (auto = false) {
         }
       }
     })
-    .catch(err => {
-      console.error("Failed to start new chat:", err);
-    });
+    .catch(err => console.error("Failed to start new chat:", err));
 };
 
-// Fetching chaaaaaaaaat history
+// Fetch chat history
 function fetchChatHistory(conversationId) {
   fetch(`https://api.fein-ai.com/v1/conversations/${conversationId}`, {
     method: "GET",
@@ -78,18 +84,18 @@ function fetchChatHistory(conversationId) {
         renderChat();
       }
     })
-    .catch(err => {
-      console.error("Failed to fetch chat history:", err);
-    });
+    .catch(err => console.error("Failed to fetch chat history:", err));
 }
 
-//  Sending  message to FEIN BABA
+// Send message
 window.sendMessage = function () {
   const input = document.getElementById('userInput');
   const message = input.value.trim();
   if (!message) return;
 
-  const chatId = chats[currentChatIndex].id;
+  const chatId = chats[currentChatIndex]?.id;
+  if (!chatId) return;
+
   chats[currentChatIndex].messages.push({ from: 'user', text: message });
   renderChat();
   input.value = '';
@@ -104,11 +110,10 @@ window.sendMessage = function () {
     .then(data => {
       if (data.status === "ok") {
         chats[currentChatIndex].messages.push({ from: 'ai', text: data.response });
-        renderChat();
       } else {
         chats[currentChatIndex].messages.push({ from: 'ai', text: "AI failed to respond." });
-        renderChat();
       }
+      renderChat();
     })
     .catch(err => {
       console.error("Failed to get AI response:", err);
@@ -117,9 +122,11 @@ window.sendMessage = function () {
     });
 };
 
-//  chat window
+// Render chat messages
 function renderChat() {
   const chatWindow = document.getElementById('chatWindow');
+  if (!chatWindow) return;
+
   chatWindow.innerHTML = '';
 
   const currentChat = chats[currentChatIndex] || { messages: [] };
@@ -141,9 +148,11 @@ function renderChat() {
   chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
-//  Update chat history sidebar
+// Update sidebar chat history
 function updateHistory() {
   const list = document.getElementById('historyList');
+  if (!list) return;
+
   list.innerHTML = '';
 
   chats.forEach((chat, i) => {
@@ -163,15 +172,15 @@ function updateHistory() {
     menuIcon.className = 'ph ph-dots-three-vertical chat-menu-icon';
     menuIcon.onclick = (e) => {
       e.stopPropagation();
-      toggleDropdown(i);
+      window.toggleDropdown(i);
     };
 
     const dropdown = document.createElement('div');
     dropdown.className = 'chat-dropdown';
     dropdown.dataset.index = i;
     dropdown.innerHTML = `
-      <button onclick="renameChat(${i})">Rename</button>
-      <button onclick="deleteChat(${i})">Delete</button>
+      <button onclick="window.renameChat(${i})">Rename</button>
+      <button onclick="window.deleteChat(${i})">Delete</button>
     `;
 
     wrapper.appendChild(titleButton);
@@ -179,19 +188,20 @@ function updateHistory() {
     wrapper.appendChild(dropdown);
     list.appendChild(wrapper);
   });
-
-  document.addEventListener('click', () => {
-    document.querySelectorAll('.chat-dropdown').forEach(d => d.style.display = 'none');
-  });
 }
 
-//  Dropdown of Rename/Delete
+// Toggle dropdown menu
 window.toggleDropdown = function (index) {
   document.querySelectorAll('.chat-dropdown').forEach((dropdown, i) => {
-    dropdown.style.display = i === index && dropdown.style.display !== 'block' ? 'block' : 'none';
+    if (i === index) {
+      dropdown.classList.toggle('show');
+    } else {
+      dropdown.classList.remove('show');
+    }
   });
 };
 
+// Rename chat
 window.renameChat = function (index) {
   const newName = prompt("Rename chat:");
   if (newName) {
@@ -200,9 +210,16 @@ window.renameChat = function (index) {
   }
 };
 
+// Delete chat
 window.deleteChat = function (index) {
-  if (confirm("Are you sure you want to delete this chat?")) {
-    chats.splice(index, 1);
+  if (!confirm("Are you sure you want to delete this chat?")) return;
+
+  chats.splice(index, 1);
+
+  if (chats.length === 0) {
+    currentChatIndex = 0;
+    window.startNewChat(true);
+  } else {
     currentChatIndex = Math.max(0, currentChatIndex - 1);
     updateHistory();
     renderChat();
