@@ -98,19 +98,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (id === 'password') {
-      const confirmValue = document.getElementById('confirm-password').value.trim();
-      const confirmError = document.getElementById('error-confirm-password');
+  const confirmValue = document.getElementById('confirm-password').value.trim();
+  const confirmError = document.getElementById('error-confirm-password');
 
-      if (confirmValue === "") {
-        confirmError.textContent = "This field is required.";
-        return false;
-      }
+  // ✅ Strong password regex
+  const strongPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
-      if (value !== confirmValue) {
-        confirmError.textContent = "Passwords do not match.";
-        return false;
-      }
-    }
+  if (!strongPassword.test(value)) {
+    error.textContent = "Password must contain at least 8 characters, 1 uppercase, 1 lowercase, and 1 number.";
+    return false;
+  }
+
+  if (confirmValue === "") {
+    confirmError.textContent = "Please confirm your password.";
+    return false;
+  }
+
+  if (value !== confirmValue) {
+    confirmError.textContent = "Passwords do not match.";
+    return false;
+  }
+}
+
 
     if (id === 'phone') {
       const phoneValue = value.replace(/\D/g, '');
