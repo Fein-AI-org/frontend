@@ -51,11 +51,15 @@
 
           <div class="form-step" id="step-4">
             <label for="password">Set Password</label>
-            <input type="password" id="password" required />
+            <input type="password" id="password" name="password"
+  placeholder="Create a password" required  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+  maxlength="32"
+  title="Password must contain at least 8 characters, including 1 uppercase, 1 lowercase, and 1 number." />
             <div class="error-message" id="error-password"></div>
 
             <label for="confirm-password">Confirm Password</label>
-            <input type="password" id="confirm-password" required />
+            <input type="password" id="confirm-password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+  title="Password must contain at least 8 characters, including 1 uppercase, 1 lowercase, and 1 number." />
             <div class="error-message" id="error-confirm-password"></div>
 
             <label class="show-password-label">
