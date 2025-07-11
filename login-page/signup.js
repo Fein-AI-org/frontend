@@ -102,10 +102,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const confirmError = document.getElementById('error-confirm-password');
 
   // ✅ Strong password regex
-  const strongPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+  const strongPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{12,}$/;
 
   if (!strongPassword.test(value)) {
-    error.textContent = "Password must contain at least 8 characters, 1 uppercase, 1 lowercase, and 1 number.";
+    error.textContent = "Password must contain at least 12 characters, 1 uppercase, 1 lowercase, and 1 special character.";
     return false;
   }
 
