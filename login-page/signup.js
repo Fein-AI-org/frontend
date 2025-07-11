@@ -188,6 +188,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     requestAnimationFrame(draw);
   }
-
+// Disable paste in Confirm Password field
+const confirmPwd = document.getElementById('confirm-password');
+if (confirmPwd) {
+  confirmPwd.addEventListener('paste', function (e) {
+    e.preventDefault();
+    alert("Pasting is disabled. Please re-type your password.");
+  });
+}
   draw();
 });
