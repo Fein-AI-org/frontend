@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const strongPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{12,}$/;
 
   if (!strongPassword.test(value)) {
-    error.textContent = "Password must contain at least 12 characters, 1 uppercase, 1 lowercase, and 1 special character.";
+    error.textContent = "Password must contain at least 12 characters, 1 uppercase, 1 lowercase, 1 numeric and 1 special character.";
     return false;
   }
 
