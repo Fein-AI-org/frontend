@@ -105,7 +105,7 @@ form.addEventListener('submit', function (e) {
       togglePwdIcon.innerHTML = '<i class="ph ph-eye-slash"></i>';
     } else {
       pwdInput.type = 'password';
-      togglePwdIcon.innerHTML = '<i class="ph ph-eye"></i>';
+      togglePwdIcon.innerHTML = '<i class="ph ph-eye"></i>'; //password visibility icon
     }
   });
 
