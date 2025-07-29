@@ -6,10 +6,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const emailError = document.getElementById('email-error');
   const pwdError = document.getElementById('password-error');
   const togglePwdIcon = document.getElementById('toggle-password');
+ // === Login Rate Limiting ===
+  let loginAttempts = 0;
+  const maxAttempts = 5;
+  const lockoutTime = 30000; // 30 seconds
 
 form.addEventListener('submit', function (e) {
   e.preventDefault();
 
+  // Prevent further login if limit reached
+    if (loginAttempts >= maxAttempts) {
+      pwdError.textContent = `🚫 Too many failed attempts. Try again in 30 seconds.`;
+      return;
+    }
+  
   let valid = true;
   emailError.textContent = '';
   pwdError.textContent = '';
@@ -63,11 +73,23 @@ form.addEventListener('submit', function (e) {
     console.log("Login response data:", data);
 
     if (data.status === "ok") {
-      console.log("Login successful. Session cookie set.");
+     loginAttempts = 0; // Reset on success
       alert("Welcome back!");
       window.location.href = "../question/index.html"; // 
     } else {
+        loginAttempts++;
       pwdError.textContent = data.message || "Invalid login credentials.";
+      // Lockout if max attempts reached
+        if (loginAttempts >= maxAttempts) {
+          loginBtn.disabled = true;
+          pwdError.textContent = "🚫 Too many failed attempts. Try again in 30 seconds.";
+
+          setTimeout(() => {
+            loginAttempts = 0;
+            loginBtn.disabled = false;
+            pwdError.textContent = "";
+          }, lockoutTime);
+    }
     }
   })
   .catch(err => {
@@ -83,7 +105,7 @@ form.addEventListener('submit', function (e) {
       togglePwdIcon.innerHTML = '<i class="ph ph-eye-slash"></i>';
     } else {
       pwdInput.type = 'password';
-      togglePwdIcon.innerHTML = '<i class="ph ph-eye"></i>';
+      togglePwdIcon.innerHTML = '<i class="ph ph-eye"></i>'; //password visibility icon
     }
   });
 
