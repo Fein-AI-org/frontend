@@ -617,6 +617,44 @@ body {
   background-color: #3a3a3a;
 }
 
+/* Sidebar actions container */
+.sidebar-actions {
+  margin-top: 8px;
+}
+
+/* Invest button styling */
+.invest-btn {
+  background: none;
+  border: none;
+  color: #eee;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 6px 8px;
+}
+
+.sidebar .invest-btn {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.3s;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.sidebar .invest-btn:hover {
+  background-color: #45a049;
+}
+
 /* Profile dropdown menu - ensure it's managed by JS for visibility */
 .profile-menu {
   position: absolute;
