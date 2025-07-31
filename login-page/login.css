@@ -1,5 +1,3 @@
-
-
 *,
 *::before,
 *::after {
@@ -7,51 +5,48 @@
 }
 
 html, body {
-  /* height: auto; */ /* Avoid 'auto', let content dictate height or use 100% if needed for full viewport */
   min-height: 100%;
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
   color: #ddf1a5;
   background-color: #0f0f0f;
   overflow-x: hidden;
-  /* overflow-y: auto; */ /* Default browser behavior, usually not needed to set explicitly */
 }
 
 canvas#stars {
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  z-index: 0; /* Ensure it's behind all content */
+  z-index: 0;
 }
 
 .container {
   display: flex;
-  flex-direction: row; /* Default for desktop */
-  min-height: 100vh; /* Ensure it takes at least full viewport height */
-  position: relative; /* For z-index to work */
-  z-index: 1; /* Above canvas */
-  /* flex-wrap: nowrap; */ /* Default for flex, usually not needed */
+  flex-direction: row;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
 }
 
 .left, .right {
-  flex: 1; /* Each takes half the space */
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem; /* Add some padding */
+  padding: 2rem;
 }
 
 .left {
   flex-direction: column;
   text-align: center;
-  background-color: rgba(31,31,31,0.8); /* Semi-transparent background */
-  /* padding: 40px; */ /* Replaced by 2rem */
-  border-radius: 12px; /* Rounded corners for the panel itself if visible */
-  box-shadow: 0 0 10px rgba(221,241,165,0.2); /* Subtle glow */
-  /* Added for better content spacing within .left */
-  justify-content: space-between; /* Pushes logo/title up and socials down */
-  min-height: calc(100vh - 4rem); /* Consider padding */
+  background-color: rgba(31,31,31,0.8);
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(221,241,165,0.2);
+  justify-content: space-between;
+  min-height: calc(100vh - 4rem);
+  position: relative;
 }
+
 .left-content {
   flex-grow: 1;
   display: flex;
@@ -60,58 +55,81 @@ canvas#stars {
   justify-content: center;
 }
 
+/* Logo */
+.company-logo {
+  max-width: 120px;
+  margin-bottom: 1.5rem;
+}
 
 .left h1 {
-  font-size: clamp(1.8em, 4vw, 2.8em); /* Responsive font size */
-  /* margin-top: 100px; */ /* Removed for flexbox spacing */
-  margin-bottom: 1rem; /* Use rem for spacing */
+  font-size: clamp(1.8em, 4vw, 2.8em);
+  margin-bottom: 1rem;
 }
 
 .left p {
-  font-size: clamp(1em, 2.5vw, 1.2em); /* Responsive font size */
-  /* margin-top: 20px; */ /* Removed for flexbox spacing */
-  margin-bottom: 2rem; /* Use rem for spacing */
-  max-width: 90%; /* Prevent text from being too wide */
+  font-size: clamp(1em, 2.5vw, 1.2em);
+  margin-bottom: 2rem;
+  max-width: 90%;
   line-height: 1.6;
 }
 
+/* Bottom socials section */
+.bottom-section {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+}
+
+.follow-inline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
 .follow-us-text {
-  margin-bottom: 0.5rem; /* Use rem */
+  margin: 0;
   font-size: clamp(0.9em, 2vw, 1.1em);
 }
 
 .bottom-socials {
   display: flex;
-  gap: 1.25rem; /* Use rem */
   justify-content: center;
+  gap: 1.25rem;
 }
 
-.bottom-socials i, .socials i { /* Target Phosphor icons directly */
-  font-size: 1.8rem; /* Adjust icon size */
+.bottom-socials a {
+  color: #ddf1a5;
+  text-decoration: none;
+}
+
+.bottom-socials i {
+  font-size: 1.8rem;
   transition: transform 0.2s ease-in-out;
 }
-.bottom-socials a:hover i, .socials a:hover i {
-  transform: scale(1.15); /* Slightly larger hover effect */
+
+.bottom-socials a:hover i {
+  transform: scale(1.15);
 }
 
-/* Removed .bottom-socials img and .socials img as we use <i> tags now */
-
+/* Form Box */
 .form-box {
   background: rgba(31, 31, 31, 0.3);
   backdrop-filter: blur(15px);
   border: 1px solid rgba(221,241,165,0.2);
-  padding: clamp(1.5rem, 5vw, 2.5rem); /* Responsive padding */
+  padding: clamp(1.5rem, 5vw, 2.5rem);
   border-radius: 12px;
   box-shadow: 0 0 15px rgba(221,241,165,0.2);
   width: 100%;
-  max-width: 400px; /* Slightly increased max-width */
+  max-width: 400px;
   text-align: center;
-  margin: auto; /* Keeps it centered in .right */
+  margin: auto;
 }
 
-.form-box h2 { /* Renamed from global h2 to be specific */
-  margin-bottom: 1.5rem; /* Use rem */
-  font-size: clamp(1.5em, 3.5vw, 1.8em); /* Responsive font size */
+.form-box h2 {
+  margin-bottom: 1.5rem;
+  font-size: clamp(1.5em, 3.5vw, 1.8em);
 }
 
 form {
@@ -121,101 +139,104 @@ form {
 
 label {
   text-align: left;
-  margin-bottom: 0.3rem; /* Use rem */
+  margin-bottom: 0.3rem;
   font-weight: 500;
-  font-size: clamp(0.9em, 2vw, 1em); /* Responsive font size */
+  font-size: clamp(0.9em, 2vw, 1em);
 }
 
 input[type="email"],
-input[type="password"] { /* Specific to these inputs */
-  padding: 0.75rem; /* Use rem */
-  margin-bottom: 1rem; /* Use rem */
+input[type="password"] {
+  padding: 0.75rem;
+  margin-bottom: 1rem;
   border: 1px solid #ddf1a5;
   background-color: transparent;
   color: #ddf1a5;
   border-radius: 5px;
   font-size: clamp(0.9em, 2vw, 1em);
   width: 100%;
-  box-sizing: border-box; /* Good practice */
   transition: box-shadow 0.2s ease;
 }
+
 input[type="email"]:focus,
 input[type="password"]:focus {
   outline: none;
-  box-shadow: 0 0 0 2px #ddf1a5; /* Focus indicator */
+  box-shadow: 0 0 0 2px #ddf1a5;
 }
-
 
 input::placeholder {
   color: #ddf1a5aa;
 }
 
+/* Options (Remember/Forgot) */
 .options {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: clamp(0.8em, 1.8vw, 0.9em); /* Responsive font size */
-  margin-bottom: 1rem; /* Use rem */
-  flex-wrap: wrap; /* Allow wrapping on small screens if needed */
-  gap: 0.5rem; /* Spacing for wrapped items */
+  font-size: clamp(0.8em, 1.8vw, 0.9em);
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   width: 100%;
 }
 
 .options label {
-  display: flex; /* For checkbox alignment */
+  display: flex;
   align-items: center;
-  gap: 0.3rem; /* Space between checkbox and text */
-  /* font-size: 0.9em; */ /* Inherits from .options */
+  gap: 0.3rem;
   color: #ddf1a5;
   cursor: pointer;
 }
-input[type="checkbox"] { /* Style checkbox */
+
+input[type="checkbox"] {
   margin-right: 0.3rem;
-  accent-color: #ddf1a5; /* Color the checkbox itself */
+  accent-color: #ddf1a5;
   width: 1rem;
   height: 1rem;
 }
 
-
 .options a {
   color: #ddf1a5;
   text-decoration: none;
-  transition: text-decoration 0.2s ease;
 }
+
 .options a:hover {
   text-decoration: underline;
 }
 
-
-button[type="submit"] { /* Specific to submit button */
-  padding: 0.85rem; /* Use rem */
+/* Submit button */
+button[type="submit"] {
+  padding: 0.85rem;
   background-color: #ddf1a5;
   color: #0f0f0f;
   font-weight: bold;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: clamp(0.9em, 2.2vw, 1em); /* Responsive font size */
+  font-size: clamp(0.9em, 2.2vw, 1em);
   width: 100%;
-  margin-top: 0.5rem; /* Use rem */
-  transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+  margin-top: 0.5rem;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 button[type="submit"]:hover {
-  background-color: #c9db82; /* Slightly different hover */
+  background-color: #c9db82;
   color: #000;
 }
+
 button[type="submit"]:active {
-  transform: scale(0.98); /* Click effect */
+  transform: scale(0.98);
 }
 
+/* Divider */
 .divider {
-  margin: 1rem 0; /* Use rem */
-  font-size: clamp(0.8em, 1.8vw, 0.9em); /* Responsive font size */
+  margin: 1rem 0;
+  font-size: clamp(0.8em, 1.8vw, 0.9em);
   position: relative;
   text-align: center;
 }
-.divider::before, .divider::after { /* Lines for divider */
+
+.divider::before,
+.divider::after {
   content: "";
   position: absolute;
   top: 50%;
@@ -223,23 +244,22 @@ button[type="submit"]:active {
   height: 1px;
   background-color: #ddf1a5aa;
 }
+
 .divider::before { left: 0; }
 .divider::after { right: 0; }
-
 
 .socials {
   display: flex;
   justify-content: center;
-  gap: 1.25rem; /* Use rem */
-  margin-top: 0.5rem; /* Use rem */
-  flex-wrap: wrap; /* Ensure they wrap if many */
+  gap: 1.25rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
 }
 
-/* .socials img:hover removed, handled by i tag styling */
-
+/* Bottom text (Signup link) */
 .bottom-text {
-  margin-top: 1rem; /* Use rem */
-  font-size: clamp(0.8em, 1.8vw, 0.9em); /* Responsive font size */
+  margin-top: 1rem;
+  font-size: clamp(0.8em, 1.8vw, 0.9em);
 }
 
 .bottom-text a {
@@ -247,124 +267,80 @@ button[type="submit"]:active {
   text-decoration: underline;
   font-weight: 500;
 }
+
 .bottom-text a:hover {
   text-decoration: none;
 }
 
-
-.logo {
-  display: block; /* Or inline-block if preferred */
-  /* margin-top: 200px; */ /* Removed, handled by flexbox in .left */
-  margin-bottom: 1rem; /* Space below logo */
-}
-.logo i { /* Style the Phosphor icon used for logo */
-  font-size: clamp(36px, 8vw, 48px); /* Responsive logo size */
-}
-
-
+/* Error messages */
 .error-message {
   color: #ff6b6b;
-  font-size: clamp(0.75em, 1.5vw, 0.8em); /* Responsive font size */
-  margin-top: -0.5rem; /* Adjusted spacing */
+  font-size: clamp(0.75em, 1.5vw, 0.8em);
+  margin-top: -0.5rem;
   margin-bottom: 0.5rem;
   text-align: left;
-  min-height: 1em; /* Prevent layout jumps */
+  min-height: 1em;
 }
 
-/* === RESPONSIVENESS === */
-@media (max-width: 860px) { /* Adjusted breakpoint for better transition */
+/* Responsiveness */
+@media (max-width: 860px) {
   .container {
     flex-direction: column;
-    min-height: auto; /* Allow content to dictate height on mobile */
-    /* height: auto; */ /* Redundant with min-height: auto */
-    /* flex-wrap: nowrap; */ /* Default, not needed */
+    min-height: auto;
   }
 
   .right {
-    order: 1; /* Form first */
+    order: 1;
     width: 100%;
-    /* height: auto; */ /* Default */
-    padding: 1.5rem; /* Adjusted padding for mobile */
-    /* justify-content: center; */ /* Default from .right */
+    padding: 1.5rem;
   }
 
   .left {
-    order: 2; /* Info section second */
+    order: 2;
     width: 100%;
-    /* height: auto; */ /* Default */
-    padding: 1.5rem; /* Adjusted padding for mobile */
-    margin-top: 0; /* No top margin needed when stacked */
-    border-radius: 0; /* Full width, no radius needed */
-    box-shadow: none; /* No shadow needed for full width section */
-    min-height: auto; /* Adjust for stacked layout */
-    justify-content: center; /* Center content vertically */
-  }
-  .left-content {
-    padding-bottom: 2rem; /* Ensure space for bottom socials if they are inside */
+    padding: 1.5rem;
+    border-radius: 0;
+    box-shadow: none;
+    min-height: auto;
+    justify-content: center;
   }
 
+  .left-content {
+    padding-bottom: 2rem;
+  }
 
   .form-box {
-    max-width: 100%; /* Take full width of .right */
-    padding: 1.5rem; /* Consistent padding */
+    max-width: 100%;
+    padding: 1.5rem;
   }
-
-  .left h1 {
-    /* font-size: 1.8em; */ /* Handled by clamp */
-    margin-top: 0; /* No top margin from .left h1 */
-  }
-
-  /* .left p, .follow-us-text, h2, input, button sizes are handled by clamp() */
-
-  .options {
-    /* flex-direction: column; */ /* Let it wrap naturally or adjust if needed */
-    /* align-items: flex-start; */
-    /* font-size: 0.9em; */ /* Handled by clamp */
-    gap: 0.8rem; /* Increase gap if items stack */
-  }
-  .options label {
-    flex-basis: 100%; /* Make "Remember me" take full width if it wraps poorly */
-  }
-  .options a {
-     flex-basis: 100%; /* Make "Forgot password" take full width if it wraps poorly */
-     text-align: right; /* Align to right if it takes full width */
-  }
-
-
-  /* .bottom-socials img, .socials img sizes are handled by i tag styling */
 }
 
 @media (max-width: 480px) {
   .left, .right, .form-box {
-    padding: 1rem; /* Further reduce padding on very small screens */
+    padding: 1rem;
   }
 
   .left h1 {
-    font-size: clamp(1.5em, 5vw, 1.8em); /* Adjust clamp for smaller screens */
+    font-size: clamp(1.5em, 5vw, 1.8em);
   }
-   .form-box h2 {
+
+  .form-box h2 {
     font-size: clamp(1.3em, 4vw, 1.5em);
   }
 
   .socials {
-    gap: 1rem; /* Adjust gap */
+    gap: 1rem;
   }
+
   .bottom-socials i, .socials i {
-    font-size: 1.5rem; /* Smaller icons */
+    font-size: 1.5rem;
   }
 
   button[type="submit"] {
-    /* font-size: 0.9em; */ /* Handled by clamp */
-    padding: 0.75rem; /* Adjust padding */
+    padding: 0.75rem;
   }
 
   .options a {
-     text-align: left; /* Align left on smallest screens for better readability if stacked */
+    text-align: left;
   }
-
 }
-
-/* @media (max-width: 400px) removed as 480px and clamp should cover it,
-   but can be re-added if specific fine-tuning is needed for ~320px screens.
-   Most styles are now fluid with clamp() or use rems.
-*/
