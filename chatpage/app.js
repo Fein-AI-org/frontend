@@ -23,7 +23,7 @@ window.addEventListener('DOMContentLoaded', () => {
 function openInvestApp() {
   // Try to open the Invest app in a new tab
   // First, try the development server URL
-  const investUrl = 'http://localhost:3000';
+  const investUrl = 'https://invest-5alediilo-shaadarts-projects.vercel.app/';
   
   // Check if the Invest app is running by attempting to open it
   const newTab = window.open(investUrl, '_blank');
