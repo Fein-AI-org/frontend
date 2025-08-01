@@ -1,74 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta http-equiv="X-Frame-Options" content="DENY">
-  <meta http-equiv="X-Content-Type-Options" content="nosniff">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://api.fein-ai.com; connect-src 'self' https://api.fein-ai.com; style-src 'self' 'unsafe-inline';">
-  <title>Fein AI Login</title>
-  <link rel="stylesheet" href="login.css" />
-  <!-- Phosphor Icons CDN -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fein Login</title>
+  <link rel="stylesheet" href="login.css">
+  <script defer src="login.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/phosphor-icons@1.4.2/src/css/icons.css">
 </head>
 <body>
   <canvas id="stars"></canvas>
   <div class="container">
     <div class="left">
       <div class="left-content">
-        <div class="logo-section">
-          <img src="company-logo.png" alt="Company Logo" class="company-logo" />
+       <img src="../wait list/file.svg" alt="Company Logo" class="company-logo">
+
+        <h1>Welcome Back!</h1>
+        <p>Log in to access your Fein AI dashboard and explore powerful tools tailored for you.</p>
+
+        <div class="form-box">
+          <h2>Login</h2>
+          <form id="login-form">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" placeholder="you@example.com" required>
+            <div id="email-error" class="error-message"></div>
+
+            <label for="login-password">Password</label>
+            <div style="position: relative;">
+              <input type="password" id="login-password" placeholder="••••••••" required>
+              <span id="toggle-password" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;">
+                <i class="ph ph-eye"></i>
+              </span>
+            </div>
+            <div id="password-error" class="error-message"></div>
+
+            <div class="options">
+              <label><input type="checkbox"> Remember me</label>
+              <a href="#" id="forgot-password">Forgot Password?</a>
+            </div>
+
+            <button type="submit" id="loginBtn">Log In</button>
+
+            <div class="divider">or log in with</div>
+            <div class="socials">
+              <a href="#" id="google-login"><i class="ph ph-google-logo"></i></a>
+              <a href="#" id="apple-login"><i class="ph ph-apple-logo"></i></a>
+            </div>
+          </form>
+
+          <div class="bottom-text">
+            Don’t have an account? <a href="#" id="signup-now">Sign up</a>
+          </div>
         </div>
-        <h1>Your Financial Journey<br>starts here</h1>
-        <p>Create an account to Join Our Community</p>
       </div>
 
       <div class="bottom-section">
         <div class="follow-inline">
-          <p class="follow-us-text">Follow us on</p>
+          <p class="follow-us-text">Follow us</p>
         </div>
         <div class="bottom-socials">
-          <a href="#" id="instagram-btn"><img src="assets/instagram.svg" alt="Instagram" /></a>
-          <a href="#" id="twitter-btn"><img src="assets/twitter.svg" alt="Twitter" /></a>
-          <a href="#" id="linkedin-btn"><img src="assets/linkedin.svg" alt="LinkedIn" /></a>
+          <a href="#" id="instagram-btn"><i class="ph ph-instagram-logo"></i></a>
+          <a href="#" id="twitter-btn"><i class="ph ph-twitter-logo"></i></a>
+          <a href="#" id="linkedin-btn"><i class="ph ph-linkedin-logo"></i></a>
         </div>
       </div>
     </div>
-
     <div class="right">
-      <div class="form-box">
-        <h2>Hello! Welcome to Fein AI</h2>
-        <form id="login-form">
-          <label>Email ID</label>
-          <input type="email" id="login-email" placeholder="Enter your email" required />
-          <div id="email-error" class="error-message"></div>
-
-          <label>Password</label>
-          <div style="position: relative;">
-            <input type="password" id="login-password" placeholder="Password" required style="padding-right: 38px;" />
-            <span id="toggle-password" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #ddf1a5; font-size: 1.2em;">
-              <i class="ph ph-eye"></i>
-            </span>
-          </div>
-          <div id="password-error" class="error-message"></div>
-
-          <div class="options">
-            <label><input type="checkbox" id="remember-me" /> Remember Me</label>
-            <a href="#" id="forgot-password">Forgot Password?</a>
-          </div>
-
-          <button type="submit">Login</button>
-          <div class="divider">or</div>
-          <div class="socials"> 
-            <a href="#" id="google-login"><i class="ph ph-google-logo"></i></a>
-            <a href="#" id="apple-login"><i class="ph ph-apple-logo"></i></a>
-          </div>
-          <p class="bottom-text">New to Fein AI? <a href="#" id="signup-now">Signup now</a></p>
-        </form>
-        <p>By logging in, you agree to our <br><a href="privacy-notice.html" style="color: #ddf1a5; text-decoration: underline; font-size: clamp(0.8em, 1.8vw, 0.9em); font-weight: 500;">Privacy Notice</a>.</p>
-      </div>
+     
     </div>
   </div>
-  <script src="login.js"></script>
 </body>
 </html>
