@@ -24,7 +24,7 @@ form.addEventListener('submit', function (e) {
   fetch ("https://api.fein-ai.com/v1/login" , {
     method "POST",
     body : params,
-    }}
+    })
     .then(res => res.json() )
     .then(data => console.log(data))
     .catch(err => console.error(err))                 
