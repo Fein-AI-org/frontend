@@ -5,11 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta http-equiv="X-Frame-Options" content="DENY">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://api.fein-ai.com; connect-src 'self' https://api.fein-ai.com; style-src 'self' 'unsafe-inline';">
+  <meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src 'self' 'unsafe-inline' https://api.fein-ai.com https://www.google.com https://www.gstatic.com;
+  connect-src 'self' https://api.fein-ai.com;
+  style-src 'self' 'unsafe-inline';
+  frame-src https://www.google.com https://www.gstatic.com;">
   <title>Fein AI Login</title>
   <link rel="stylesheet" href="login.css" />
   <!-- Phosphor Icons CDN -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
   <canvas id="stars"></canvas>
@@ -38,7 +44,7 @@
     <div class="right">
       <div class="form-box">
         <h2>Hello! Welcome to Fein AI</h2>
-        <form id="login-form">
+        <form id="login-form" action="https://api.fein-ai.com/v1/login" method="POST">
           <label>Email ID</label>
           <input type="email" id="login-email" placeholder="Enter your email" required />
           <div id="email-error" class="error-message"></div>
@@ -51,6 +57,8 @@
             </span>
           </div>
           <div id="password-error" class="error-message"></div>
+          <div class="g-recaptcha" data-sitekey="6LdAfpgrAAAAACIZhDigtnnxk-xCDR0OSWBaQbUP"></div>
+          <br/>
 
           <div class="options">
             <label><input type="checkbox" id="remember-me" /> Remember Me</label>
