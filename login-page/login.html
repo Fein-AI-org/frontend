@@ -77,6 +77,103 @@
       </div>
     </div>
   </div>
+  <script>
+    form.addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  // Prevent further login if limit reached
+  if (loginAttempts >= maxAttempts) {
+    pwdError.textContent = `🚫 Too many failed attempts. Try again in 30 seconds.`;
+    return;
+  }
+
+  let valid = true;
+  emailError.textContent = '';
+  pwdError.textContent = '';
+
+  const email = emailInput.value.trim();
+  const pwd = pwdInput.value.trim();
+
+  if (!/\S+@\S+\.\S+/.test(email)) {
+    emailError.textContent = "Please enter a valid email address.";
+    valid = false;
+  }
+
+  if (!pwd) {
+    pwdError.textContent = "Password cannot be empty.";
+    valid = false;
+  }
+
+  // ✅ Check reCAPTCHA
+  const recaptchaResponse = grecaptcha.getResponse();
+  if (recaptchaResponse.length === 0) {
+    pwdError.textContent = "Please complete the reCAPTCHA.";
+    valid = false;
+  }
+
+  if (!valid) {
+    console.warn("Form validation failed.");
+    return;
+  }
+
+  console.log("Sending login request...");
+
+  fetch("https://api.fein-ai.com/v1/login/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    credentials: "include", 
+    body: JSON.stringify({
+      email: email,
+      password: pwd,
+      recaptcha: recaptchaResponse  // send token if needed on backend
+    })
+  })
+  .then(async response => {
+    const contentType = response.headers.get("content-type");
+    let data;
+
+    try {
+      data = contentType && contentType.includes("application/json")
+        ? await response.json()
+        : { message: await response.text() };
+    } catch (e) {
+      console.error("Failed to parse response:", e);
+      pwdError.textContent = "Invalid server response.";
+      return;
+    }
+
+    console.log("Login response status:", response.status);
+    console.log("Login response data:", data);
+
+    if (data.status === "ok") {
+      loginAttempts = 0;
+      alert("Welcome back!");
+      window.location.href = "../question/index.html";
+    } else {
+      loginAttempts++;
+      pwdError.textContent = data.message || "Invalid login credentials.";
+
+      if (loginAttempts >= maxAttempts) {
+        const loginBtn = form.querySelector('button[type="submit"]');
+        loginBtn.disabled = true;
+        pwdError.textContent = "🚫 Too many failed attempts. Try again in 30 seconds.";
+
+        setTimeout(() => {
+          loginAttempts = 0;
+          loginBtn.disabled = false;
+          pwdError.textContent = "";
+        }, lockoutTime);
+      }
+    }
+  })
+  .catch(err => {
+    console.error("Network or server error during login:", err);
+    pwdError.textContent = "Server error. Please try again later.";
+  });
+});
+  </script>
   <script src="login.js"></script>
 </body>
 </html>
