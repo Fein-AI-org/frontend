@@ -13,6 +13,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
 form.addEventListener('submit', function (e) {
   e.preventDefault();
+  
+  const captchaResponse = greCaptcha.getResponse();
+  if (!captchaResponse.length > 0){
+    throw new Error("Captcha not complete!");
+  }
+
+  const fd = new FormData(e.target);
+  const params = new URLSearchParams(fd);
+  fetch ("https://api.fein-ai.com/v1/login" , {
+    method "POST",
+    body : params,
+    }}
+    .then(res => res.json() )
+    .then(data => console.log(data))
+    .catch(err => console.error(err))                 
+  
 
   // Prevent further login if limit reached
     if (loginAttempts >= maxAttempts) {
@@ -41,7 +57,7 @@ form.addEventListener('submit', function (e) {
     console.warn("Form validation failed.");
     return;
   }
-
+ 
   console.log("Sending login request...");
 
   fetch("https://api.fein-ai.com/v1/login/", {
